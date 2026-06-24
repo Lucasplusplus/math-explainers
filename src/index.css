@@ -1,0 +1,61 @@
+/* Redaction 1 — the lightly-degraded ("grade 10") cut. Self-hosted, see
+   /public/fonts and Redaction-OFL.txt. Falls back to system monospace if the
+   font fails to load. */
+@font-face {
+  font-family: "Redaction 1";
+  src: url("/fonts/Redaction_10-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Redaction 1";
+  src: url("/fonts/Redaction_10-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Redaction 1";
+  src: url("/fonts/Redaction_10-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* Monochrome palette. --accent is the single hook for future color —
+     change this one value and the accent propagates everywhere. */
+  --bg: #ffffff;
+  --panel: #fafafa;
+  --ink: #111111;
+  --mist: #5c5c5c;
+  --faint: #9a9a9a;
+  --line: #d9d9d9;
+  --accent: #8a8a8a;
+  --accent-ink: #ffffff;
+
+  --font: "Redaction 1", ui-monospace, "SF Mono", "Cascadia Mono", Consolas,
+    "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+}
+
+a {
+  color: inherit;
+}
