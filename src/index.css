@@ -37,6 +37,28 @@
 
   --font: "Redaction 1", ui-monospace, "SF Mono", "Cascadia Mono", Consolas,
     "Courier New", monospace;
+
+  /* Fibonacci scale — every margin/padding/gap in the site should resolve to
+     one of these, so spacing never drifts off-scale. */
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-3: 3px;
+  --space-4: 5px;
+  --space-5: 8px;
+  --space-6: 13px;
+  --space-7: 21px;
+  --space-8: 34px;
+  --space-9: 55px;
+  --space-10: 89px;
+  --space-11: 144px;
+  --space-12: 233px;
+
+  --text-1: 13px;
+  --text-2: 21px;
+  --text-3: 34px;
+  --text-4: 55px;
+  --text-5: 89px;
+  --text-6: 144px;
 }
 
 * {

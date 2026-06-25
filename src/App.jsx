@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Home.jsx";
 import ExplainerIndex from "./ExplainerIndex.jsx";
 import { explainers } from "./explainers/registry.js";
 
@@ -9,7 +10,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ExplainerIndex />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/explainers" element={<ExplainerIndex />} />
         {explainers.map(({ slug, Component }) => (
           <Route key={slug} path={`/${slug}`} element={<Component />} />
         ))}
