@@ -126,6 +126,7 @@ export default function Discriminant() {
         .dx-back:hover { color: var(--ink); }
         .dx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 18px; }
         @media (max-width: 720px) { .dx-grid { grid-template-columns: 1fr; gap: 28px; } }
+        .dx-domain { font-size: 11px; letter-spacing: 1.5px; color: var(--faint); font-weight: 400; margin: 0 0 6px; text-transform: uppercase; }
         .dx-kicker { font-size: 12px; letter-spacing: 3px; color: var(--mist); font-weight: 700; margin: 0 0 10px; text-transform: uppercase; }
         .dx-title { font-size: 44px; line-height: 1.05; margin: 0 0 12px; font-weight: 700; }
         .dx-dek { font-size: 16px; color: var(--mist); margin: 0 0 28px; line-height: 1.45; }
@@ -143,6 +144,21 @@ export default function Discriminant() {
         .dx-btn { background: var(--ink); color: var(--bg); border: none; border-radius: 4px; padding: 12px 22px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 18px; }
         .dx-btn:hover { background: var(--mist); }
         .dx-note { font-size: 12px; color: var(--faint); margin: 10px 0 0; }
+
+        .dx-section { margin-top: 56px; padding-top: 32px; border-top: 1.5px solid var(--line); }
+        .dx-section-title { font-size: 26px; font-weight: 700; margin: 0 0 10px; }
+        .dx-section-intro { font-size: 15px; color: var(--mist); margin: 0 0 28px; line-height: 1.5; max-width: 680px; }
+        .dx-disguises { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+        @media (max-width: 880px) { .dx-disguises { grid-template-columns: 1fr; } }
+        .dx-disguise { border-left: 3px solid var(--ink); padding: 2px 0 2px 16px; }
+        .dx-disguise-name { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mist); margin: 0 0 10px; }
+        .dx-disguise-q { font-size: 15px; font-style: italic; margin: 0 0 10px; line-height: 1.4; }
+        .dx-disguise-tell { font-size: 13.5px; color: var(--ink); margin: 0 0 10px; line-height: 1.45; }
+        .dx-disguise-tell b { font-weight: 700; }
+        .dx-disguise-map { font-size: 13.5px; font-variant-numeric: tabular-nums; color: var(--faint); font-weight: 700; margin: 0; }
+        .dx-example-problem { font-size: 16px; margin: 0 0 14px; line-height: 1.4; }
+        .dx-example-line { font-size: 17px; font-variant-numeric: tabular-nums; margin: 0; font-weight: 700; }
+        .dx-example-link { font-size: 14px; color: var(--mist); margin: 16px 0 0; font-style: italic; line-height: 1.45; }
       `}</style>
 
       <div className="dx">
@@ -153,6 +169,7 @@ export default function Discriminant() {
         <div className="dx-grid">
           {/* LEFT — the concept */}
           <div>
+            <p className="dx-domain">Advanced Math · Quadratics</p>
             <p className="dx-kicker">[SERIES LABEL] · [CONCEPT 01]</p>
             <h1 className="dx-title">[Concept title]</h1>
             <p className="dx-dek">[one-line description]</p>
@@ -253,6 +270,71 @@ export default function Discriminant() {
             </div>
           </div>
         </div>
+
+        <section className="dx-section">
+          <h2 className="dx-section-title">How it shows up on the SAT</h2>
+          <p className="dx-section-intro">
+            The SAT never says "discriminant" — it hides it.
+          </p>
+
+          <div className="dx-disguises">
+            <div className="dx-disguise">
+              <p className="dx-disguise-name">Disguise 1 — The count</p>
+              <p className="dx-disguise-q">
+                "How many distinct real solutions does the equation have?" / "How
+                many x-intercepts does the graph have?"
+              </p>
+              <p className="dx-disguise-tell">
+                <b>Tell:</b> any "how many solutions" question is a
+                sign-of-D question.
+              </p>
+              <p className="dx-disguise-map">
+                D &gt; 0 → two &nbsp;·&nbsp; D = 0 → one &nbsp;·&nbsp; D &lt; 0 → none
+              </p>
+            </div>
+
+            <div className="dx-disguise">
+              <p className="dx-disguise-name">Disguise 2 — Solve for the missing letter</p>
+              <p className="dx-disguise-q">
+                "x² + 6x + c = 0 has exactly one real solution. What is c?"
+              </p>
+              <p className="dx-disguise-tell">
+                <b>Tell:</b> "exactly one solution" means D = 0 — set the
+                discriminant to zero and solve for the unknown. ("No solution" →
+                D &lt; 0, "two" → D &gt; 0.) This is the highest-value form above
+                a 650.
+              </p>
+              <p className="dx-disguise-map">D = 0 → solve for the unknown</p>
+            </div>
+
+            <div className="dx-disguise">
+              <p className="dx-disguise-name">Disguise 3 — Touch vs. cross / tangent</p>
+              <p className="dx-disguise-q">
+                "The graph touches the x-axis at one point." / "The line is
+                tangent to the parabola."
+              </p>
+              <p className="dx-disguise-tell">
+                <b>Tell:</b> tangent = one shared point; set the two equal,
+                collapse to a quadratic — it's D = 0 again.
+              </p>
+              <p className="dx-disguise-map">D = 0</p>
+            </div>
+          </div>
+
+          <p className="dx-label">WORKED EXAMPLE</p>
+          <div className="dx-panel">
+            <p className="dx-example-problem">
+              x² + 6x + c = 0 has exactly one real solution. Find c.
+            </p>
+            <p className="dx-example-line">
+              one solution → D = 0 → 36 − 4c = 0 → c = 9
+            </p>
+            <p className="dx-example-link">
+              This is the slider above sliding the parabola up until the two
+              roots collapse into one at D = 0.
+            </p>
+          </div>
+        </section>
       </div>
     </div>
   );
