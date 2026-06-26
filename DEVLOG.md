@@ -25,3 +25,7 @@ Accessibility and performance floors: if the OS-level "reduce motion" setting is
 New Fibonacci spacing/type scale (`--space-1` … `--space-12`, `--text-1` … `--text-6`) was added to `index.css` since the brief called for one and none existed yet; every margin/padding/gap/font-size on the new home page resolves to one of these.
 
 One known follow-up: the discriminant page's "back to index" link still points at `/`, which is now the marketing home page instead of the concepts list — fixing it means touching the concept page itself, which was explicitly out of scope here.
+
+## 2026-06-26
+
+Expanded the Discriminant explainer's worked example to show the translation step from English to equation, not just the final arithmetic.

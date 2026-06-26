@@ -40,7 +40,7 @@ export default function Discriminant() {
   // status
   let status, count;
   if (!isQuad) {
-    status = "a = 0 — [rule note]";
+    status = "a = 0 — this is just a line; discriminant rule only works for quadratics";
     count = "—";
   } else if (D > 0) {
     status = "two real solutions";
@@ -157,7 +157,7 @@ export default function Discriminant() {
         .dx-disguise-tell b { font-weight: 700; }
         .dx-disguise-map { font-size: 13.5px; font-variant-numeric: tabular-nums; color: var(--faint); font-weight: 700; margin: 0; }
         .dx-example-problem { font-size: 16px; margin: 0 0 14px; line-height: 1.4; }
-        .dx-example-line { font-size: 17px; font-variant-numeric: tabular-nums; margin: 0; font-weight: 700; }
+        .dx-example-line { font-size: 17px; font-variant-numeric: tabular-nums; margin: 6px 0; font-weight: 700; }
         .dx-example-link { font-size: 14px; color: var(--mist); margin: 16px 0 0; font-style: italic; line-height: 1.45; }
       `}</style>
 
@@ -169,12 +169,11 @@ export default function Discriminant() {
         <div className="dx-grid">
           {/* LEFT — the concept */}
           <div>
-            <p className="dx-domain">Advanced Math · Quadratics</p>
-            <p className="dx-kicker">[SERIES LABEL] · [CONCEPT 01]</p>
-            <h1 className="dx-title">[Concept title]</h1>
-            <p className="dx-dek">[one-line description]</p>
+            <p className="dx-kicker"> Advanced Math · Quadratics </p>
+            <h1 className="dx-title"> The Discriminant </h1>
+            <p className="dx-dek"> Ignore all the bs. Discriminant just means whatever is under the square root. In the Quadratic Formula, it's the b² - 4ac</p>
 
-            <p className="dx-label">THE EQUATION</p>
+            <p className="dx-label">Practice (move the sliders to see when solutions do/don't occur)</p>
             <div className="dx-eq">
               {a !== 0 ? `${a === 1 ? "" : a === -1 ? "−" : a}x²` : "0"}
               {eqTerm(b, "x", a === 0)}
@@ -199,7 +198,7 @@ export default function Discriminant() {
               </p>
             )}
 
-            <p className="dx-label">THE FULL RULE</p>
+            <p className="dx-label">THE RULE TO REMEMBER</p>
             <div className={`dx-rule ${D > 0 && isQuad ? "is-active" : ""}`}>
               b²−4ac &gt; 0 → two roots
             </div>
@@ -211,9 +210,9 @@ export default function Discriminant() {
             </div>
 
             <button className="dx-btn" onClick={fresh}>
-              ↻ [fresh problem]
+              generate new problem
             </button>
-            <p className="dx-note">[rule note]</p>
+            <p className="dx-note">not hard once you recognize the pattern</p>
           </div>
 
           {/* RIGHT — the live picture */}
@@ -274,7 +273,7 @@ export default function Discriminant() {
         <section className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
-            The SAT never says "discriminant" — it hides it.
+            The SAT never says "discriminant" — it usually refers to it as roots, solutions, or x-intercepts. Just know that they all mean the same thing here.
           </p>
 
           <div className="dx-disguises">
@@ -324,14 +323,23 @@ export default function Discriminant() {
           <p className="dx-label">WORKED EXAMPLE</p>
           <div className="dx-panel">
             <p className="dx-example-problem">
-              x² + 6x + c = 0 has exactly one real solution. Find c.
+              Problem: x² + 6x + c = 0 has exactly one real solution. Find c.
+            </p>
+            <p className="dx-disguise-tell">
+              "One solution" is the tell. From the rule above, one root
+              happens only when the discriminant is zero — so this sentence
+              is secretly saying b² − 4ac = 0.
             </p>
             <p className="dx-example-line">
-              one solution → D = 0 → 36 − 4c = 0 → c = 9
+              Read off the numbers: a = 1, b = 6, c is the unknown.
             </p>
+            <p className="dx-example-line">Put them in: (6)² − 4(1)(c) = 0</p>
+            <p className="dx-example-line">Simplify: 36 − 4c = 0</p>
+            <p className="dx-example-line">Solve: 4c = 36, so c = 9</p>
             <p className="dx-example-link">
-              This is the slider above sliding the parabola up until the two
-              roots collapse into one at D = 0.
+              What you really did: turned three English words — "exactly one
+              solution" — into one equation. That translation is the whole
+              skill.
             </p>
           </div>
         </section>
