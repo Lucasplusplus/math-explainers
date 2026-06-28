@@ -29,3 +29,7 @@ One known follow-up: the discriminant page's "back to index" link still points a
 ## 2026-06-26
 
 Expanded the Discriminant explainer's worked example to show the translation step from English to equation, not just the final arithmetic.
+
+## 2026-06-27
+
+Created a new Vieta's Formulas explainer page (`/vietas-formulas`), built as a structural replica of the current Discriminant page: same grapher, same sliders, same section layout (recognition section + worked example), same styling. It reuses the existing parabola/roots picture, but the left panel now reads off the sum (−b/a) and product (c/a) of the roots live from the sliders, and shows a check confirming those formula values match the actual roots drawn on the graph. All the human-written explanation copy (the lens, the three disguises, the worked example) is left as `[bracketed placeholders]` — only the math is real. Added to the explainer registry so it's routed and listed automatically, the same way the discriminant page is.
