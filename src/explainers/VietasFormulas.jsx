@@ -118,6 +118,11 @@ export default function VietasFormulas() {
         .dx-example-problem { font-size: 16px; margin: 0 0 14px; line-height: 1.4; }
         .dx-example-line { font-size: 17px; font-variant-numeric: tabular-nums; margin: 6px 0; font-weight: 700; }
         .dx-example-link { font-size: 14px; color: var(--mist); margin: 16px 0 0; font-style: italic; line-height: 1.45; }
+
+        .dx-video-wrap { aspect-ratio: 16 / 9; background: var(--panel); border: 1.5px solid var(--line); border-radius: 4px; overflow: hidden; margin-top: 28px; max-width: 680px; transition: border-color 0.2s ease; }
+        .dx-video-wrap:hover { border-color: var(--mist); }
+        .dx-video-frame { width: 100%; height: 100%; display: block; border: 0; }
+        @media (prefers-reduced-motion: reduce) { .dx-video-wrap { transition: none; } }
       `}</style>
 
       <div className="dx">
@@ -260,6 +265,19 @@ export default function VietasFormulas() {
         <section className="dx-section">
           <h2 className="dx-section-title">The Full Explanation</h2>
           <p className="dx-section-intro">You can skip this; this section just proves why it works.</p>
+
+          <p className="dx-label">WATCH THE EXPLANATION</p>
+          <div className="dx-video-wrap">
+            <iframe
+              className="dx-video-frame"
+              src="https://www.youtube.com/embed/r01JlEr5fKM"
+              title="Vieta's Formulas — explanation video"
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
         </section>
 
         <section className="dx-section">

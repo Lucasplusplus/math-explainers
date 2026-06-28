@@ -41,3 +41,7 @@ Reworked the Vieta's Formulas page's left column, all in-place edits to that one
 ## 2026-06-28
 
 Two more fixes to the Vieta's Formulas page. First, fixed the sum formula's stacked fraction so the negative sign sits in front of the whole fraction (−(b/a), minus outside the bar) instead of being baked into the numerator ((−b)/a) — applies to both the general formula and "The Rule to Remember" restatement. Second, filled in the real "How it shows up on the SAT" copy: an intro line plus three disguises (the sum, the product, and reverse-building the equation from a given sum/product), replacing the bracketed placeholders with the actual recognition content; the worked example and the new explanation section are still placeholders.
+
+## 2026-06-28 (later)
+
+Added the explanation video to the Vieta's Formulas page, inside "The Full Explanation" section, below the short written lens. It's a responsive 16:9 YouTube embed (no autoplay — the user has to press play) framed with the same muted border/panel treatment as the grapher, and its hover transition is disabled under `prefers-reduced-motion`. The short placeholder text above it stays as the fast version; the video is the deep version.
