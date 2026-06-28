@@ -45,3 +45,7 @@ Two more fixes to the Vieta's Formulas page. First, fixed the sum formula's stac
 ## 2026-06-28 (later)
 
 Added the explanation video to the Vieta's Formulas page, inside "The Full Explanation" section, below the short written lens. It's a responsive 16:9 YouTube embed (no autoplay — the user has to press play) framed with the same muted border/panel treatment as the grapher, and its hover transition is disabled under `prefers-reduced-motion`. The short placeholder text above it stays as the fast version; the video is the deep version.
+
+## 2026-06-28 (later still)
+
+Swapped the Vieta's Formulas video from a YouTube embed to a self-hosted file — no more youtube.com references or third-party tracking on the page. The actual dropped file was a phone screen recording (`RPReplay_Final....mov`, not `vieta.mp4` as planned), renamed to `public/videos/vieta.mov` and confirmed it commits normally (not in `.gitignore`, no Git LFS rules apply). Installed ffmpeg locally to pull a poster frame from ~1s in (`public/videos/vieta-poster.jpg`) so the player shows a still frame instead of a black box before playback. Discovered along the way that the real footage is ~1.63:1, not 16:9 — sized the player to the video's actual aspect ratio instead of force-fitting 16:9, so nothing gets cropped or letterboxed. The `<video>` tag uses controls (no autoplay), `playsInline` for iOS, and `preload="metadata"`.
