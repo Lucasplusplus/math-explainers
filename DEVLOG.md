@@ -53,3 +53,7 @@ Swapped the Vieta's Formulas video from a YouTube embed to a self-hosted file �
 ## 2026-06-28 (and again)
 
 Filled in the Vieta's Formulas worked example (last placeholder block on the page): "x² − 7x + 12 = 0 has solutions p and q, find p + q" — read off a and b, apply the sum formula as a stacked fraction (−(−7) over 1), land on p + q = 7. The closing "what you really did" line uses the same muted takeaway style as the discriminant page's worked example.
+
+## 2026-06-28 (one more)
+
+Bumped "The Rule to Remember" on the Discriminant page (the three b²−4ac sign rules) up to 36px/bold, matching the size and weight of the hero formulas on the Vieta's page — they're now the visual anchor of the left column instead of a small footnote. The active/highlighted-rule mechanic is untouched: whichever rule matches the current slider state still switches to full ink color while the other two stay muted.

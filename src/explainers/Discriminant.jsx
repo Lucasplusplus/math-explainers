@@ -134,8 +134,8 @@ export default function Discriminant() {
         .dx-eq { font-size: 24px; font-variant-numeric: tabular-nums; }
         .dx-disc { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
         .dx-pill { display: inline-block; padding: 9px 18px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-top: 6px; background: var(--ink); color: var(--bg); }
-        .dx-rule { font-size: 14px; margin: 6px 0; font-variant-numeric: tabular-nums; color: var(--faint); }
-        .dx-rule.is-active { color: var(--ink); font-weight: 700; }
+        .dx-rule { font-size: 36px; font-weight: 700; margin: 6px 0; line-height: 1.15; font-variant-numeric: tabular-nums; color: var(--faint); }
+        .dx-rule.is-active { color: var(--ink); }
         .dx-panel { background: var(--panel); border: 1.5px solid var(--line); border-radius: 4px; padding: 18px; }
         .dx-slider { width: 100%; accent-color: var(--accent); height: 22px; }
         .dx-srow { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
