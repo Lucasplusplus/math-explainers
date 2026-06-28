@@ -49,3 +49,7 @@ Added the explanation video to the Vieta's Formulas page, inside "The Full Expla
 ## 2026-06-28 (later still)
 
 Swapped the Vieta's Formulas video from a YouTube embed to a self-hosted file — no more youtube.com references or third-party tracking on the page. The actual dropped file was a phone screen recording (`RPReplay_Final....mov`, not `vieta.mp4` as planned), renamed to `public/videos/vieta.mov` and confirmed it commits normally (not in `.gitignore`, no Git LFS rules apply). Installed ffmpeg locally to pull a poster frame from ~1s in (`public/videos/vieta-poster.jpg`) so the player shows a still frame instead of a black box before playback. Discovered along the way that the real footage is ~1.63:1, not 16:9 — sized the player to the video's actual aspect ratio instead of force-fitting 16:9, so nothing gets cropped or letterboxed. The `<video>` tag uses controls (no autoplay), `playsInline` for iOS, and `preload="metadata"`.
+
+## 2026-06-28 (and again)
+
+Filled in the Vieta's Formulas worked example (last placeholder block on the page): "x² − 7x + 12 = 0 has solutions p and q, find p + q" — read off a and b, apply the sum formula as a stacked fraction (−(−7) over 1), land on p + q = 7. The closing "what you really did" line uses the same muted takeaway style as the discriminant page's worked example.

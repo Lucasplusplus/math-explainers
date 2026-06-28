@@ -333,13 +333,25 @@ export default function VietasFormulas() {
 
           <p className="dx-label">WORKED EXAMPLE</p>
           <div className="dx-panel">
-            <p className="dx-example-problem">[worked example problem]</p>
-            <p className="dx-disguise-tell">[worked example step]</p>
-            <p className="dx-example-line">[worked example step]</p>
-            <p className="dx-example-line">[worked example step]</p>
-            <p className="dx-example-line">[worked example step]</p>
-            <p className="dx-example-line">[worked example step]</p>
-            <p className="dx-example-link">[worked example step]</p>
+            <p className="dx-example-problem">
+              Problem: x² − 7x + 12 = 0 has solutions p and q. Find p + q.
+            </p>
+            <p className="dx-disguise-tell">
+              It asks for the sum of the solutions — that's the tell. Vieta's
+              gives the sum straight from the coefficients, so you don't have
+              to solve for p and q at all.
+            </p>
+            <p className="dx-example-line">Read off the numbers: a = 1, b = −7.</p>
+            <p className="dx-example-line">
+              Sum of roots = −(<Fraction num="b" den="a" />) = −(
+              <Fraction num="−7" den="1" />)
+            </p>
+            <p className="dx-example-line">So p + q = 7.</p>
+            <p className="dx-example-link">
+              What you really did: the problem looked like it wanted you to
+              find the roots, but it only asked for their sum — and Vieta's
+              hands you that directly. No factoring, no quadratic formula.
+            </p>
           </div>
         </section>
       </div>
