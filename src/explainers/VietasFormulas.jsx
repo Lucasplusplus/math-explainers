@@ -68,32 +68,6 @@ export default function VietasFormulas() {
   const vx = isQuad ? -b / (2 * a) : null;
   const vy = isQuad ? c - (b * b) / (4 * a) : null;
 
-  // ── fresh problem: client-side, instant, keeps roots in view ────────────
-  function fresh() {
-    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-    const type = pick(["two", "two", "one", "none"]); // weight toward two
-    const lead = pick([1, 1, -1, 2]);
-    if (type === "two") {
-      let r1 = pick([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5]);
-      let r2 = pick([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5]);
-      while (r2 === r1) r2 = pick([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5]);
-      setA(lead);
-      setB(-lead * (r1 + r2));
-      setC(lead * r1 * r2);
-    } else if (type === "one") {
-      const r = pick([-4, -3, -2, -1, 1, 2, 3, 4]);
-      setA(lead);
-      setB(-2 * lead * r);
-      setC(lead * r * r);
-    } else {
-      const bb = pick([-4, -2, 0, 2, 4]);
-      const cc = Math.ceil((bb * bb) / 4) + pick([1, 2, 3]);
-      setA(1);
-      setB(bb);
-      setC(cc);
-    }
-  }
-
   const eqTerm = (coef, varStr, first) => {
     if (coef === 0) return null;
     const sign = coef < 0 ? "−" : first ? "" : "+";
@@ -117,17 +91,17 @@ export default function VietasFormulas() {
         .dx-dek { font-size: 16px; color: var(--mist); margin: 0 0 28px; line-height: 1.45; }
         .dx-label { font-size: 11px; letter-spacing: 2.5px; color: var(--faint); font-weight: 700; margin: 22px 0 8px; text-transform: uppercase; }
         .dx-eq { font-size: 24px; font-variant-numeric: tabular-nums; }
-        .dx-disc { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .dx-formula { font-size: 36px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin: 6px 0; font-variant-numeric: tabular-nums; }
+        .dx-formula-value { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin: 8px 0 0; font-variant-numeric: tabular-nums; }
+        .dx-frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.15; }
+        .dx-frac-num { padding: 0 6px 3px; }
+        .dx-frac-den { padding: 3px 6px 0; border-top: 2px solid currentColor; }
         .dx-pill { display: inline-block; padding: 9px 18px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-top: 6px; background: var(--ink); color: var(--bg); }
-        .dx-rule { font-size: 14px; margin: 6px 0; font-variant-numeric: tabular-nums; color: var(--faint); }
-        .dx-rule.is-active { color: var(--ink); font-weight: 700; }
         .dx-panel { background: var(--panel); border: 1.5px solid var(--line); border-radius: 4px; padding: 18px; }
         .dx-slider { width: 100%; accent-color: var(--accent); height: 22px; }
         .dx-srow { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
         .dx-svar { font-size: 18px; width: 18px; font-style: italic; }
         .dx-sval { font-variant-numeric: tabular-nums; width: 34px; text-align: right; font-size: 15px; font-weight: 700; }
-        .dx-btn { background: var(--ink); color: var(--bg); border: none; border-radius: 4px; padding: 12px 22px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 18px; }
-        .dx-btn:hover { background: var(--mist); }
         .dx-note { font-size: 12px; color: var(--faint); margin: 10px 0 0; }
 
         .dx-section { margin-top: 56px; padding-top: 32px; border-top: 1.5px solid var(--line); }
@@ -166,14 +140,32 @@ export default function VietasFormulas() {
               {" = 0"}
             </div>
 
-            <p className="dx-label">SUM OF THE ROOTS &nbsp;r + s = −b/a</p>
-            <div className="dx-disc">
-              {isQuad ? `−(${b}) / ${a} = ${fmt(sum)}` : "undefined when a = 0"}
+            <p className="dx-label">SUM OF THE ROOTS</p>
+            <div className="dx-formula">
+              r + s = <Fraction num="−b" den="a" />
+            </div>
+            <div className="dx-formula-value">
+              {isQuad ? (
+                <>
+                  −(<Fraction num={b} den={a} />) = {fmt(sum)}
+                </>
+              ) : (
+                "undefined when a = 0"
+              )}
             </div>
 
-            <p className="dx-label">PRODUCT OF THE ROOTS &nbsp;r·s = c/a</p>
-            <div className="dx-disc">
-              {isQuad ? `(${c}) / ${a} = ${fmt(product)}` : "undefined when a = 0"}
+            <p className="dx-label">PRODUCT OF THE ROOTS</p>
+            <div className="dx-formula">
+              r · s = <Fraction num="c" den="a" />
+            </div>
+            <div className="dx-formula-value">
+              {isQuad ? (
+                <>
+                  (<Fraction num={c} den={a} />) = {fmt(product)}
+                </>
+              ) : (
+                "undefined when a = 0"
+              )}
             </div>
 
             <div className="dx-pill">{pillText}</div>
@@ -200,19 +192,13 @@ export default function VietasFormulas() {
             )}
 
             <p className="dx-label">THE RULE TO REMEMBER</p>
-            <div className={`dx-rule ${isQuad && product > 0 ? "is-active" : ""}`}>
-              c/a &gt; 0 → roots share a sign
+            <div className="dx-formula">
+              r + s = <Fraction num="−b" den="a" />
             </div>
-            <div className={`dx-rule ${isQuad && product < 0 ? "is-active" : ""}`}>
-              c/a &lt; 0 → roots have opposite signs
-            </div>
-            <div className={`dx-rule ${isQuad && product === 0 ? "is-active" : ""}`}>
-              c/a = 0 → one root is 0
+            <div className="dx-formula">
+              r · s = <Fraction num="c" den="a" />
             </div>
 
-            <button className="dx-btn" onClick={fresh}>
-              generate new problem
-            </button>
             <p className="dx-note">[encouragement note]</p>
           </div>
 
@@ -270,6 +256,11 @@ export default function VietasFormulas() {
             </div>
           </div>
         </div>
+
+        <section className="dx-section">
+          <h2 className="dx-section-title">The Full Explanation</h2>
+          <p className="dx-section-intro">[explanation — I'll write this]</p>
+        </section>
 
         <section className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
@@ -335,6 +326,15 @@ function Slider({ label, val, min, max, set }) {
       />
       <span className="dx-sval">{val}</span>
     </div>
+  );
+}
+
+function Fraction({ num, den }) {
+  return (
+    <span className="dx-frac">
+      <span className="dx-frac-num">{num}</span>
+      <span className="dx-frac-den">{den}</span>
+    </span>
   );
 }
 
