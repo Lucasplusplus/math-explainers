@@ -130,9 +130,9 @@ export default function VietasFormulas() {
           <div>
             <p className="dx-kicker"> Advanced Math · Quadratics </p>
             <h1 className="dx-title"> Vieta's Formulas </h1>
-            <p className="dx-dek">[lens explanation]</p>
+            <p className="dx-dek">These 2 rules may come in handy when testing</p>
 
-            <p className="dx-label">Practice (move the sliders to see the sum and product update)</p>
+            <p className="dx-label">Practice</p>
             <div className="dx-eq">
               {a !== 0 ? `${a === 1 ? "" : a === -1 ? "−" : a}x²` : "0"}
               {eqTerm(b, "x", a === 0)}
@@ -142,7 +142,7 @@ export default function VietasFormulas() {
 
             <p className="dx-label">SUM OF THE ROOTS</p>
             <div className="dx-formula">
-              r + s = <Fraction num="−b" den="a" />
+              r + s = −(<Fraction num="b" den="a" />)
             </div>
             <div className="dx-formula-value">
               {isQuad ? (
@@ -193,13 +193,13 @@ export default function VietasFormulas() {
 
             <p className="dx-label">THE RULE TO REMEMBER</p>
             <div className="dx-formula">
-              r + s = <Fraction num="−b" den="a" />
+              r + s = −(<Fraction num="b" den="a" />)
             </div>
             <div className="dx-formula">
               r · s = <Fraction num="c" den="a" />
             </div>
 
-            <p className="dx-note">[encouragement note]</p>
+            <p className="dx-note">just remember these 2 and you'll be fine</p>
           </div>
 
           {/* RIGHT — the live picture */}
@@ -259,39 +259,55 @@ export default function VietasFormulas() {
 
         <section className="dx-section">
           <h2 className="dx-section-title">The Full Explanation</h2>
-          <p className="dx-section-intro">[explanation — I'll write this]</p>
+          <p className="dx-section-intro">You can skip this; this section just proves why it works.</p>
         </section>
 
         <section className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
-          <p className="dx-section-intro">[section intro]</p>
+          <p className="dx-section-intro">
+            The SAT never says "Vieta's." It asks about the sum or product of the
+            solutions directly, expecting you to find them WITHOUT solving the
+            quadratic.
+          </p>
 
           <div className="dx-disguises">
             <div className="dx-disguise">
-              <p className="dx-disguise-name">Disguise 1 — [disguise 1 name]</p>
-              <p className="dx-disguise-q">[disguise 1 phrasing]</p>
-              <p className="dx-disguise-tell">
-                <b>Tell:</b> [tell]
+              <p className="dx-disguise-name">Disguise 1 — The sum</p>
+              <p className="dx-disguise-q">
+                "What is the sum of the solutions to the equation above?"
               </p>
-              <p className="dx-disguise-map">[disguise 1 map]</p>
+              <p className="dx-disguise-tell">
+                <b>Tell:</b> they want r + s. Don't solve — read off −b/a.
+              </p>
+              <p className="dx-disguise-map">Sum = −b over a</p>
             </div>
 
             <div className="dx-disguise">
-              <p className="dx-disguise-name">Disguise 2 — [disguise 2 name]</p>
-              <p className="dx-disguise-q">[disguise 2 phrasing]</p>
-              <p className="dx-disguise-tell">
-                <b>Tell:</b> [tell]
+              <p className="dx-disguise-name">Disguise 2 — The product</p>
+              <p className="dx-disguise-q">
+                "The solutions to the equation are p and q. What is the value of
+                pq?"
               </p>
-              <p className="dx-disguise-map">[disguise 2 map]</p>
+              <p className="dx-disguise-tell">
+                <b>Tell:</b> they want the product. Read off c/a directly.
+              </p>
+              <p className="dx-disguise-map">Product = c over a</p>
             </div>
 
             <div className="dx-disguise">
-              <p className="dx-disguise-name">Disguise 3 — [disguise 3 name]</p>
-              <p className="dx-disguise-q">[disguise 3 phrasing]</p>
-              <p className="dx-disguise-tell">
-                <b>Tell:</b> [tell]
+              <p className="dx-disguise-name">Disguise 3 — Reverse / build the equation</p>
+              <p className="dx-disguise-q">
+                "A quadratic has solutions that sum to 5 and multiply to 6. Which
+                equation could this be?"
               </p>
-              <p className="dx-disguise-map">[disguise 3 map]</p>
+              <p className="dx-disguise-tell">
+                <b>Tell:</b> run it backwards — the equation is
+                x² − (sum)x + (product) = 0, so x² − 5x + 6 = 0.
+              </p>
+              <p className="dx-disguise-map">
+                Sum becomes the middle coefficient (negated), product becomes the
+                constant.
+              </p>
             </div>
           </div>
 
