@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "Bash(npm run *)",
+      "Bash(npm test*)",
+      "Bash(npm start)",
+      "Bash(npx vitest *)",
+      "Bash(npx playwright *)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git branch*)",
+      "Bash(git checkout *)",
+      "Bash(ls*)",
+      "Bash(cat *)"
+    ],
+    "ask": [
+      "Bash(npm install*)",
+      "Bash(npm uninstall*)",
+      "Bash(npm update*)",
+      "Bash(git push*)",
+      "Bash(git reset*)",
+      "Bash(git rebase*)",
+      "Bash(git merge*)",
+      "Bash(rm *)",
+      "Bash(rmdir *)",
+      "Bash(mv *)",
+      "Edit(.env*)",
+      "Edit(package.json)",
+      "Edit(package-lock.json)",
+      "Edit(.claude/**)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(rm -rf *)",
+      "Bash(git reset --hard*)"
+    ]
+  }
+}

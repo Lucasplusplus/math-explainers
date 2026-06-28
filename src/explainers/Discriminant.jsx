@@ -171,7 +171,7 @@ export default function Discriminant() {
           <div>
             <p className="dx-kicker"> Advanced Math · Quadratics </p>
             <h1 className="dx-title"> The Discriminant </h1>
-            <p className="dx-dek"> Ignore all the bs. Discriminant just means whatever is under the square root. In the Quadratic Formula, it's the b² - 4ac</p>
+            <p className="dx-dek"> Ignore all the bs. Discriminant just means whatever is under the square root. In the Quadratic Formula, it's the b² - 4ac and depending on its value, that will determine how many roots a quadratic has. </p>
 
             <p className="dx-label">Practice (move the sliders to see when solutions do/don't occur)</p>
             <div className="dx-eq">
