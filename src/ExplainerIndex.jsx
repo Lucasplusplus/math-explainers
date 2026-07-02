@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { explainers } from "./explainers/registry.js";
+import { domains } from "./explainers/registry.js";
 
 export default function ExplainerIndex() {
   return (
@@ -23,11 +23,11 @@ export default function ExplainerIndex() {
         <p className="ix-dek">[one-line description of the series]</p>
 
         <ul className="ix-list">
-          {explainers.map((e) => (
-            <li className="ix-item" key={e.slug}>
-              <Link className="ix-link" to={`/${e.slug}`}>
-                <p className="ix-name">{e.title}</p>
-                <p className="ix-desc">{e.description}</p>
+          {domains.map((d) => (
+            <li className="ix-item" key={d.slug}>
+              <Link className="ix-link" to={`/${d.slug}`}>
+                <p className="ix-name">{d.title}</p>
+                <p className="ix-desc">{d.description}</p>
               </Link>
             </li>
           ))}

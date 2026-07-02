@@ -54,6 +54,10 @@ Swapped the Vieta's Formulas video from a YouTube embed to a self-hosted file �
 
 Filled in the Vieta's Formulas worked example (last placeholder block on the page): "x² − 7x + 12 = 0 has solutions p and q, find p + q" — read off a and b, apply the sum formula as a stacked fraction (−(−7) over 1), land on p + q = 7. The closing "what you really did" line uses the same muted takeaway style as the discriminant page's worked example.
 
+## 2026-07-01
+
+Restructured the site navigation into a domain → concept hierarchy, matching the four SAT math domains. The top-level `/explainers` index now lists the four domains (Advanced Math, Algebra, Problem-Solving and Data Analysis, Geometry and Trigonometry) rather than individual concept pages. Each domain has its own thin index page (`/advanced-math`, `/algebra`, etc.) showing the concepts that belong to it; domains with no concepts yet show a "[concepts coming soon]" placeholder so the structure is visible and ready to fill. Concept URLs are now nested under their domain: `/advanced-math/discriminant` and `/advanced-math/vietas-formulas`. The back links on concept pages now point to their domain page ("← Advanced Math") instead of the root, and domain pages link back to `/explainers`. No concept page content was touched — this was purely structural (routing, registry, and index components).
+
 ## 2026-06-28 (one more)
 
 Bumped "The Rule to Remember" on the Discriminant page (the three b²−4ac sign rules) up to 36px/bold, matching the size and weight of the hero formulas on the Vieta's page — they're now the visual anchor of the left column instead of a small footnote. The active/highlighted-rule mechanic is untouched: whichever rule matches the current slider state still switches to full ink color while the other two stay muted.

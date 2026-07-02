@@ -126,8 +126,8 @@ export default function VietasFormulas() {
       `}</style>
 
       <div className="dx">
-        <Link className="dx-back" to="/">
-          ← [back to index]
+        <Link className="dx-back" to="/advanced-math">
+          ← Advanced Math
         </Link>
 
         <div className="dx-grid">
