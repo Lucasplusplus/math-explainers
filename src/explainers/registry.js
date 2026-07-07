@@ -2,6 +2,7 @@ import Discriminant from "./Discriminant.jsx";
 import VietasFormulas from "./VietasFormulas.jsx";
 import ExponentialFunctions from "./ExponentialFunctions.jsx";
 import CompletingTheSquare from "./CompletingTheSquare.jsx";
+import QuadraticLinearSystems from "./QuadraticLinearSystems.jsx";
 
 // Add future explainers here: { slug, domain, title, description, Component }.
 // The domain slug must match one of the entries in `domains` below.
@@ -34,6 +35,13 @@ export const explainers = [
     title: "Completing the Square",
     description: "Rewriting ax² + bx + c into vertex form a(x − h)² + k to expose the vertex directly.",
     Component: CompletingTheSquare,
+  },
+  {
+    slug: "quadratic-linear-systems",
+    domain: "advanced-math",
+    title: "Quadratic-Linear Systems",
+    description: "Finding where a line meets a parabola by combining them into one quadratic and reading the discriminant.",
+    Component: QuadraticLinearSystems,
   },
 ];
 
