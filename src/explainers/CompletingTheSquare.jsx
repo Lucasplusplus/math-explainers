@@ -270,11 +270,14 @@ export default function CompletingTheSquare() {
 
             <p className="dx-step-num">Step 4 — Factor the trinomial and simplify</p>
             <p className="dx-example-line">
-              a(x + <Fraction num="b" den="2a" />)² −{" "}
+              a(x + <Fraction num="b" den="2a" />)² − a·(<Fraction num="b" den="2a" />)² + c
+            </p>
+            <p className="dx-example-line">
+              = a(x + <Fraction num="b" den="2a" />)² −{" "}
               <Fraction num={<>b<sup>2</sup></>} den="4a" /> + c
             </p>
             <p className="dx-step-note">
-              The first three terms factor into (x + b/2a)². The leftover −a·(b/2a)² simplifies to −b²/4a.
+              The first three terms factor into (x + b/2a)². The remaining term −a·(b/2a)² is still multiplied by a, giving −a·b²/(4a²) — and one factor of a cancels: a/a² = 1/a, leaving −b²/(4a).
             </p>
 
             <p className="dx-step-num">Step 5 — Read off h and k (vertex form)</p>
