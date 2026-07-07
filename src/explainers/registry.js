@@ -1,5 +1,6 @@
 import Discriminant from "./Discriminant.jsx";
 import VietasFormulas from "./VietasFormulas.jsx";
+import ExponentialFunctions from "./ExponentialFunctions.jsx";
 
 // Add future explainers here: { slug, domain, title, description, Component }.
 // The domain slug must match one of the entries in `domains` below.
@@ -18,6 +19,13 @@ export const explainers = [
     title: "Vieta's Formulas",
     description: "How to read the sum and product of a quadratic's roots straight from its coefficients.",
     Component: VietasFormulas,
+  },
+  {
+    slug: "exponential-functions",
+    domain: "advanced-math",
+    title: "Exponential Functions",
+    description: "How y = a·bˣ models percent change, and how to build b from a rate.",
+    Component: ExponentialFunctions,
   },
 ];
 
