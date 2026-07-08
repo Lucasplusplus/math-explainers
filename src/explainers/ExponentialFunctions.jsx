@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { ease, duration } from "../motion.js";
+import { AnimatedNumber } from "../AnimatedNumber.jsx";
+import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Exponential Functions — same picture/slider pattern as Discriminant and
@@ -20,6 +24,10 @@ export default function ExponentialFunctions() {
 
   const isGrowth = b > 1;
   const isDecay  = b < 1 && b > 0;
+
+  const panelRef = useRef(null);
+  const isInView = useInView(panelRef, { once: true, margin: "-80px 0px" });
+  const shouldReduce = useReducedMotion();
   const isFlat   = Math.abs(b - 1) < 0.001;
   const zeroA    = a === 0;
 
@@ -127,7 +135,13 @@ export default function ExponentialFunctions() {
             <div className="dx-formula-value">
               {zeroA
                 ? "y = 0 everywhere"
-                : `y-intercept = ${a}  ·  ${pctText} per period`}
+                : <>y-intercept = {a} &nbsp;·&nbsp; <AnimatedNumber
+                    value={pctChange}
+                    format={(v) => {
+                      const r = Math.round(v * 10) / 10;
+                      return r >= 0 ? `+${r.toFixed(1)}%` : `${r.toFixed(1)}%`;
+                    }}
+                  /> per period</>}
             </div>
 
             <div className="dx-pill">{pillText}</div>
@@ -144,12 +158,20 @@ export default function ExponentialFunctions() {
           </div>
 
           {/* RIGHT — the live picture */}
-          <div className="dx-panel">
+          <div className="dx-panel" ref={panelRef}>
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
-              <clipPath id="box">
+              <clipPath id="exp-box">
                 <rect x="0" y="0" width={W} height={H} />
               </clipPath>
-              <g clipPath="url(#box)">
+              <clipPath id="exp-draw">
+                <motion.rect
+                  x={0} y={0} height={H}
+                  initial={{ width: 0 }}
+                  animate={{ width: isInView || shouldReduce ? W : 0 }}
+                  transition={shouldReduce ? { duration: 0 } : { duration: duration.slow, ease }}
+                />
+              </clipPath>
+              <g clipPath="url(#exp-box)">
                 {/* grid */}
                 {[-4, -2, 2, 4].map((g) => (
                   <line key={"v" + g} x1={sx(g)} y1="0" x2={sx(g)} y2={H} stroke="var(--line)" strokeWidth="1" />
@@ -174,6 +196,7 @@ export default function ExponentialFunctions() {
                 {/* curve */}
                 {pts.length > 1 && (
                   <polyline
+                    clipPath="url(#exp-draw)"
                     points={pts.join(" ")}
                     fill="none"
                     stroke="var(--ink)"
@@ -204,7 +227,7 @@ export default function ExponentialFunctions() {
         </div>
 
         {/* ── How it shows up on the SAT ───────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT never says "exponential function." It shows up as population growth, radioactive decay, investment interest, depreciation — anything where a quantity is multiplied by the same factor every period.
@@ -275,10 +298,10 @@ export default function ExponentialFunctions() {
               What you really did: turned "grows 6% per year" into a base of 1.06, then plugged in. The arithmetic is secondary — getting b = 1.06 (not 0.06, not 6) is the entire translation.
             </p>
           </div>
-        </section>
+        </RevealSection>
 
         {/* ── Exponential Functions in Context ─────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">Exponential Functions in Context</h2>
           <p className="dx-section-intro">
             Word problems repackage y = a·bˣ under different names. Recognizing the template — and translating the percent to the base — is the whole skill.
@@ -327,7 +350,7 @@ export default function ExponentialFunctions() {
               The only step that requires thought is the percent-to-base translation. Everything else is substituting into A = P · bᵗ.
             </p>
           </div>
-        </section>
+        </RevealSection>
       </div>
     </div>
   );

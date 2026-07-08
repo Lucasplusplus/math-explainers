@@ -54,6 +54,18 @@ Swapped the Vieta's Formulas video from a YouTube embed to a self-hosted file �
 
 Filled in the Vieta's Formulas worked example (last placeholder block on the page): "x² − 7x + 12 = 0 has solutions p and q, find p + q" — read off a and b, apply the sum formula as a stacked fraction (−(−7) over 1), land on p + q = 7. The closing "what you really did" line uses the same muted takeaway style as the discriminant page's worked example.
 
+## 2026-07-07 (motion)
+
+Installed framer-motion and wired three focused animations across all seven concept pages.
+
+**Architecture:** shared `src/motion.js` exports the site's easing curve (`[0.22, 1, 0.36, 1]`, gentle ease-out, no bounce) and duration tokens (fast 0.3s, medium 0.6s, slow 1.2s). `src/AnimatedNumber.jsx` uses framer-motion's imperative `animate()` API to tween DOM textContent directly — no React re-render loop during the count. `src/RevealSection.jsx` wraps `motion.section` with `whileInView` for the fade-up. All three check `useReducedMotion()` and show final states immediately when set.
+
+**Curve draw (slow, 1.2s):** All seven graphers use a `<polyline>` (not a `<path>`), so pathLength isn't available. Approach: a `<motion.rect>` inside a `<clipPath>` sweeps width from 0 to full SVG width, applied only to the curve polyline. Fires once via `useInView({ once: true })` on scroll-into-view. After the draw completes the clipPath stays fully open — slider drags update the polyline points instantly with no animation involved, so live interaction is unaffected.
+
+**Value counters (fast, 0.3s):** Discriminant value (D), Vieta's sum and product, exponential percent-change, and quadratic-linear D all count from their previous value to the new one when a slider moves. The format function stays consistent across the tween so the number format doesn't flicker mid-animation.
+
+**Section reveals (medium, 0.6s):** Every `<section className="dx-section">` is now a `<RevealSection>` — opacity 0→1, y +12px→0, triggers once on scroll-into-view. Understated; punctuation not spectacle.
+
 ## 2026-07-07 (and again)
 
 Three additions in one session:

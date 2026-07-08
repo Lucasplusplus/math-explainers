@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { ease, duration } from "../motion.js";
+import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Polynomials — factored form, roots, multiplicity, end behavior.
@@ -25,6 +28,10 @@ export default function Polynomials() {
 
   const sign = posSign ? 1 : -1;
   const degree = (f1 ? 1 : 0) + (f2 ? 2 : 0) + (f3 ? 1 : 0);
+
+  const panelRef = useRef(null);
+  const isInView = useInView(panelRef, { once: true, margin: "-80px 0px" });
+  const shouldReduce = useReducedMotion();
 
   function evalPoly(x) {
     let y = sign;
@@ -174,10 +181,18 @@ export default function Polynomials() {
           </div>
 
           {/* RIGHT — the live picture */}
-          <div className="dx-panel">
+          <div className="dx-panel" ref={panelRef}>
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
               <clipPath id="poly-box">
                 <rect x="0" y="0" width={W} height={H} />
+              </clipPath>
+              <clipPath id="poly-draw">
+                <motion.rect
+                  x={0} y={0} height={H}
+                  initial={{ width: 0 }}
+                  animate={{ width: isInView || shouldReduce ? W : 0 }}
+                  transition={shouldReduce ? { duration: 0 } : { duration: duration.slow, ease }}
+                />
               </clipPath>
               <g clipPath="url(#poly-box)">
                 {/* grid */}
@@ -193,6 +208,7 @@ export default function Polynomials() {
                 {/* curve */}
                 {pts.length > 1 && (
                   <polyline
+                    clipPath="url(#poly-draw)"
                     points={pts.join(" ")}
                     fill="none"
                     stroke="var(--ink)"
@@ -236,7 +252,7 @@ export default function Polynomials() {
         </div>
 
         {/* ── Core Reading Rules ───────────────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">Core Reading Rules</h2>
           <p className="dx-section-intro">
             A factored polynomial hides everything you need — roots, multiplicity, and end behavior — in plain sight. Here's how to read them off without expanding.
@@ -262,10 +278,10 @@ export default function Polynomials() {
               Degree determines end behavior, not the number of distinct roots. This function has 3 distinct roots but degree 4.
             </p>
           </div>
-        </section>
+        </RevealSection>
 
         {/* ── How it shows up on the SAT ───────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT tests two polynomial patterns: matching a factored equation to a graph, and counting distinct real zeros.
@@ -312,7 +328,7 @@ export default function Polynomials() {
               What you really did: read roots, bounce/cross, and end behavior directly from the factored form — no expanding, no graphing calculator needed.
             </p>
           </div>
-        </section>
+        </RevealSection>
       </div>
     </div>
   );

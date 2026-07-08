@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { ease, duration } from "../motion.js";
+import { AnimatedNumber } from "../AnimatedNumber.jsx";
+import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Quadratic-Linear Systems — capstone of the quadratics cluster.
@@ -28,6 +32,10 @@ export default function QuadraticLinearSystems() {
   const A = 1;
   const B = -m;
   const C = -kLine;
+
+  const panelRef = useRef(null);
+  const isInView = useInView(panelRef, { once: true, margin: "-80px 0px" });
+  const shouldReduce = useReducedMotion();
 
   // Discriminant of the combined quadratic (exact integer since m, kLine ∈ ℤ)
   const D = B * B - 4 * A * C; // = m² + 4·kLine
@@ -135,7 +143,7 @@ export default function QuadraticLinearSystems() {
             <div className="dx-formula">{combinedEqStr(B, C)}</div>
 
             <p className="dx-label">DISCRIMINANT D = B² − 4A (B = −m, A = 1)</p>
-            <div className="dx-formula-value">D = {D}</div>
+            <div className="dx-formula-value">D = <AnimatedNumber value={D} /></div>
             <div className="dx-pill">{countLabel}</div>
 
             <p className="dx-label">THE RULE TO REMEMBER</p>
@@ -145,10 +153,18 @@ export default function QuadraticLinearSystems() {
           </div>
 
           {/* RIGHT — the live picture */}
-          <div className="dx-panel">
+          <div className="dx-panel" ref={panelRef}>
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
               <clipPath id="ql-box">
                 <rect x="0" y="0" width={W} height={H} />
+              </clipPath>
+              <clipPath id="ql-draw">
+                <motion.rect
+                  x={0} y={0} height={H}
+                  initial={{ width: 0 }}
+                  animate={{ width: isInView || shouldReduce ? W : 0 }}
+                  transition={shouldReduce ? { duration: 0 } : { duration: duration.slow, ease }}
+                />
               </clipPath>
               <g clipPath="url(#ql-box)">
                 {/* grid */}
@@ -163,6 +179,7 @@ export default function QuadraticLinearSystems() {
                 <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--mist)" strokeWidth="2" />
                 {/* parabola */}
                 <polyline
+                  clipPath="url(#ql-draw)"
                   points={parabolaPts.join(" ")}
                   fill="none"
                   stroke="var(--ink)"
@@ -212,7 +229,7 @@ export default function QuadraticLinearSystems() {
         </div>
 
         {/* ── The Method ───────────────────────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">The Method</h2>
           <p className="dx-section-intro">
             To find where a line meets a parabola, substitute the line into the parabola equation so both y's cancel. What remains is a single quadratic in x — solve it the usual way.
@@ -248,10 +265,10 @@ export default function QuadraticLinearSystems() {
               Each solution for x gives one intersection point. Substitute back into either equation to find the y-coordinate.
             </p>
           </div>
-        </section>
+        </RevealSection>
 
         {/* ── Discriminant Connection ───────────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">The Discriminant Connection</h2>
           <p className="dx-section-intro">
             The number of intersections is determined entirely by the discriminant D = B² − 4AC of the combined quadratic — the same rule you already know.
@@ -270,10 +287,10 @@ export default function QuadraticLinearSystems() {
               <Link to="/advanced-math/discriminant">Discriminant page</Link>.
             </p>
           </div>
-        </section>
+        </RevealSection>
 
         {/* ── How it shows up on the SAT ───────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT tests two patterns for quadratic-linear systems: using D to count solutions, and using D = 0 to find a missing constant.
@@ -330,7 +347,7 @@ export default function QuadraticLinearSystems() {
               What you really did: turned a geometry question ("tangent") into an algebra condition (D = 0) using the discriminant. The slider above defaults to this exact case — drag k back to −1 to see the tangent point.
             </p>
           </div>
-        </section>
+        </RevealSection>
       </div>
     </div>
   );

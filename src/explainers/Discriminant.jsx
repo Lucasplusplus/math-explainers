@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { ease, duration } from "../motion.js";
+import { AnimatedNumber } from "../AnimatedNumber.jsx";
+import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The Discriminant — one concept, one screen.
@@ -27,6 +31,10 @@ export default function Discriminant() {
 
   const isQuad = a !== 0;
   const D = b * b - 4 * a * c;
+
+  const panelRef = useRef(null);
+  const isInView = useInView(panelRef, { once: true, margin: "-80px 0px" });
+  const shouldReduce = useReducedMotion();
 
   // roots (real only)
   let roots = [];
@@ -183,7 +191,7 @@ export default function Discriminant() {
 
             <p className="dx-label">THE DISCRIMINANT &nbsp;b² − 4ac</p>
             <div className="dx-disc">
-              {b}² − 4({a})({c}) = {D}
+              {b}² − 4({a})({c}) = <AnimatedNumber value={D} />
             </div>
 
             <div className="dx-pill">
@@ -216,10 +224,18 @@ export default function Discriminant() {
           </div>
 
           {/* RIGHT — the live picture */}
-          <div className="dx-panel">
+          <div className="dx-panel" ref={panelRef}>
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
               <clipPath id="box">
                 <rect x="0" y="0" width={W} height={H} />
+              </clipPath>
+              <clipPath id="disc-draw">
+                <motion.rect
+                  x={0} y={0} height={H}
+                  initial={{ width: 0 }}
+                  animate={{ width: isInView || shouldReduce ? W : 0 }}
+                  transition={shouldReduce ? { duration: 0 } : { duration: duration.slow, ease }}
+                />
               </clipPath>
               <g clipPath="url(#box)">
                 {/* grid */}
@@ -232,8 +248,9 @@ export default function Discriminant() {
                 {/* axes */}
                 <line x1={sx(0)} y1="0" x2={sx(0)} y2={H} stroke="var(--faint)" strokeWidth="1.5" />
                 <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--mist)" strokeWidth="2" />
-                {/* curve */}
+                {/* curve — clipPath fires draw-in once on scroll; thereafter stays open */}
                 <polyline
+                  clipPath="url(#disc-draw)"
                   points={pts.join(" ")}
                   fill="none"
                   stroke="var(--ink)"
@@ -270,7 +287,7 @@ export default function Discriminant() {
           </div>
         </div>
 
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT never says "discriminant" — it usually refers to it as roots, solutions, or x-intercepts. Just know that they all mean the same thing here.
@@ -342,7 +359,7 @@ export default function Discriminant() {
               skill.
             </p>
           </div>
-        </section>
+        </RevealSection>
       </div>
     </div>
   );

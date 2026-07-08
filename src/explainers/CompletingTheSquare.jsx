@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { ease, duration } from "../motion.js";
+import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Completing the Square — sibling to Discriminant and Vieta's.
@@ -25,6 +28,10 @@ export default function CompletingTheSquare() {
 
   const isQuad = a !== 0;
   const D = b * b - 4 * a * c;
+
+  const panelRef = useRef(null);
+  const isInView = useInView(panelRef, { once: true, margin: "-80px 0px" });
+  const shouldReduce = useReducedMotion();
 
   // vertex — the h, k in a(x − h)² + k
   const h = isQuad ? -b / (2 * a) : null;
@@ -170,12 +177,20 @@ export default function CompletingTheSquare() {
           </div>
 
           {/* RIGHT — the live picture */}
-          <div className="dx-panel">
+          <div className="dx-panel" ref={panelRef}>
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
-              <clipPath id="box">
+              <clipPath id="cts-box">
                 <rect x="0" y="0" width={W} height={H} />
               </clipPath>
-              <g clipPath="url(#box)">
+              <clipPath id="cts-draw">
+                <motion.rect
+                  x={0} y={0} height={H}
+                  initial={{ width: 0 }}
+                  animate={{ width: isInView || shouldReduce ? W : 0 }}
+                  transition={shouldReduce ? { duration: 0 } : { duration: duration.slow, ease }}
+                />
+              </clipPath>
+              <g clipPath="url(#cts-box)">
                 {/* grid */}
                 {[-6, -4, -2, 2, 4, 6].map((g) => (
                   <line key={"v" + g} x1={sx(g)} y1="0" x2={sx(g)} y2={H} stroke="var(--line)" strokeWidth="1" />
@@ -188,6 +203,7 @@ export default function CompletingTheSquare() {
                 <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--mist)" strokeWidth="2" />
                 {/* curve */}
                 <polyline
+                  clipPath="url(#cts-draw)"
                   points={pts.join(" ")}
                   fill="none"
                   stroke="var(--ink)"
@@ -232,7 +248,7 @@ export default function CompletingTheSquare() {
         </div>
 
         {/* ── The Algebra ──────────────────────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">The Algebra</h2>
           <p className="dx-section-intro">
             Completing the square is a rewrite — the parabola doesn't change, you're only exposing its vertex. Here's the algebra on the general form ax² + bx + c.
@@ -289,10 +305,10 @@ export default function CompletingTheSquare() {
               Note: step 4 gives (x + b/2a)². To match vertex form a(x − h)², we need h = −b/2a — the sign flips. This is exactly the sign trap in disguise 2 below.
             </p>
           </div>
-        </section>
+        </RevealSection>
 
         {/* ── How it shows up on the SAT ───────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT doesn't say "complete the square." It asks for the vertex, minimum, or maximum of a parabola — and vertex form hands you those directly.
@@ -345,7 +361,7 @@ export default function CompletingTheSquare() {
               What you really did: rewrote the same expression until the vertex was readable. The parabola on the graph didn't move — you just changed how you described it.
             </p>
           </div>
-        </section>
+        </RevealSection>
       </div>
     </div>
   );

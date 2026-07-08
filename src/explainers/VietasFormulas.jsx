@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { ease, duration } from "../motion.js";
+import { AnimatedNumber } from "../AnimatedNumber.jsx";
+import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Vieta's Formulas — same picture as the Discriminant page (parabola + roots
@@ -39,6 +43,10 @@ export default function VietasFormulas() {
   // Vieta's: sum and product straight from the coefficients
   const sum = isQuad ? -b / a : null;
   const product = isQuad ? c / a : null;
+
+  const panelRef = useRef(null);
+  const isInView = useInView(panelRef, { once: true, margin: "-80px 0px" });
+  const shouldReduce = useReducedMotion();
 
   // the same two quantities, computed instead from the actual roots on the
   // graph — this is the "confirm they match" check
@@ -152,7 +160,7 @@ export default function VietasFormulas() {
             <div className="dx-formula-value">
               {isQuad ? (
                 <>
-                  −(<Fraction num={b} den={a} />) = {fmt(sum)}
+                  −(<Fraction num={b} den={a} />) = <AnimatedNumber value={sum} format={fmt} />
                 </>
               ) : (
                 "undefined when a = 0"
@@ -166,7 +174,7 @@ export default function VietasFormulas() {
             <div className="dx-formula-value">
               {isQuad ? (
                 <>
-                  (<Fraction num={c} den={a} />) = {fmt(product)}
+                  (<Fraction num={c} den={a} />) = <AnimatedNumber value={product} format={fmt} />
                 </>
               ) : (
                 "undefined when a = 0"
@@ -208,12 +216,20 @@ export default function VietasFormulas() {
           </div>
 
           {/* RIGHT — the live picture */}
-          <div className="dx-panel">
+          <div className="dx-panel" ref={panelRef}>
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
-              <clipPath id="box">
+              <clipPath id="vieta-box">
                 <rect x="0" y="0" width={W} height={H} />
               </clipPath>
-              <g clipPath="url(#box)">
+              <clipPath id="vieta-draw">
+                <motion.rect
+                  x={0} y={0} height={H}
+                  initial={{ width: 0 }}
+                  animate={{ width: isInView || shouldReduce ? W : 0 }}
+                  transition={shouldReduce ? { duration: 0 } : { duration: duration.slow, ease }}
+                />
+              </clipPath>
+              <g clipPath="url(#vieta-box)">
                 {/* grid */}
                 {[-6, -4, -2, 2, 4, 6].map((g) => (
                   <line key={"v" + g} x1={sx(g)} y1="0" x2={sx(g)} y2={H} stroke="var(--line)" strokeWidth="1" />
@@ -226,6 +242,7 @@ export default function VietasFormulas() {
                 <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--mist)" strokeWidth="2" />
                 {/* curve */}
                 <polyline
+                  clipPath="url(#vieta-draw)"
                   points={pts.join(" ")}
                   fill="none"
                   stroke="var(--ink)"
@@ -262,7 +279,7 @@ export default function VietasFormulas() {
           </div>
         </div>
 
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">The Full Explanation</h2>
           <p className="dx-section-intro">You can skip this; this section just proves why it works. Keep in mind, I only explain why it works for quadratics in this video. The entire concept and its formula has much more but this is what shows up on the SAT. </p>
 
@@ -280,9 +297,9 @@ export default function VietasFormulas() {
               <a href="/videos/vieta.mov">Download it instead</a>.
             </video>
           </div>
-        </section>
+        </RevealSection>
 
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT never says "Vieta's." It asks about the sum or product of the
@@ -353,7 +370,7 @@ export default function VietasFormulas() {
               hands you that directly. No factoring, no quadratic formula.
             </p>
           </div>
-        </section>
+        </RevealSection>
       </div>
     </div>
   );

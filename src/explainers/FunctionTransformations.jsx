@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { ease, duration } from "../motion.js";
+import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Function Transformations — base curve y = x² with four live controls:
@@ -26,6 +29,10 @@ export default function FunctionTransformations() {
   const [reflect, setReflect] = useState(false);
 
   const sign = reflect ? -1 : 1;
+
+  const panelRef = useRef(null);
+  const isInView = useInView(panelRef, { once: true, margin: "-80px 0px" });
+  const shouldReduce = useReducedMotion();
 
   // ghost (original): y = x²
   const ghostPts = [];
@@ -151,10 +158,18 @@ export default function FunctionTransformations() {
           </div>
 
           {/* RIGHT — the live picture */}
-          <div className="dx-panel">
+          <div className="dx-panel" ref={panelRef}>
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
               <clipPath id="ft-box">
                 <rect x="0" y="0" width={W} height={H} />
+              </clipPath>
+              <clipPath id="ft-draw">
+                <motion.rect
+                  x={0} y={0} height={H}
+                  initial={{ width: 0 }}
+                  animate={{ width: isInView || shouldReduce ? W : 0 }}
+                  transition={shouldReduce ? { duration: 0 } : { duration: duration.slow, ease }}
+                />
               </clipPath>
               <g clipPath="url(#ft-box)">
                 {/* grid */}
@@ -167,8 +182,9 @@ export default function FunctionTransformations() {
                 {/* axes */}
                 <line x1={sx(0)} y1="0" x2={sx(0)} y2={H} stroke="var(--faint)" strokeWidth="1.5" />
                 <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--mist)" strokeWidth="2" />
-                {/* ghost: y = x² (faint dashed) */}
+                {/* ghost: y = x² (faint dashed) — shares the draw reveal */}
                 <polyline
+                  clipPath="url(#ft-draw)"
                   points={ghostPts.join(" ")}
                   fill="none"
                   stroke="var(--faint)"
@@ -181,6 +197,7 @@ export default function FunctionTransformations() {
                 <circle cx={sx(0)} cy={sy(0)} r="4" fill="var(--faint)" stroke="var(--bg)" strokeWidth="2" />
                 {/* transformed curve */}
                 <polyline
+                  clipPath="url(#ft-draw)"
                   points={transPts.join(" ")}
                   fill="none"
                   stroke="var(--ink)"
@@ -211,7 +228,7 @@ export default function FunctionTransformations() {
         </div>
 
         {/* ── Core Rules ───────────────────────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">The Six Transformations</h2>
           <p className="dx-section-intro">
             Every transformation is either outside the function (vertical, intuitive) or inside it (horizontal, counterintuitive). That single distinction resolves almost every transformation question on the SAT.
@@ -258,10 +275,10 @@ export default function FunctionTransformations() {
               </div>
             </div>
           </div>
-        </section>
+        </RevealSection>
 
         {/* ── How it shows up on the SAT ───────────────────────────────────── */}
-        <section className="dx-section">
+        <RevealSection className="dx-section">
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT tests two transformation patterns: translating a description to an equation, and evaluating a transformed function from a table or graph.
@@ -311,7 +328,7 @@ export default function FunctionTransformations() {
               What you really did: classified each transformation as inside (→ horizontal, sign flips) or outside (→ vertical, sign stays). Everything else follows from that one classification.
             </p>
           </div>
-        </section>
+        </RevealSection>
       </div>
     </div>
   );
