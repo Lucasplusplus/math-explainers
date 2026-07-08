@@ -3,6 +3,8 @@ import VietasFormulas from "./VietasFormulas.jsx";
 import ExponentialFunctions from "./ExponentialFunctions.jsx";
 import CompletingTheSquare from "./CompletingTheSquare.jsx";
 import QuadraticLinearSystems from "./QuadraticLinearSystems.jsx";
+import FunctionTransformations from "./FunctionTransformations.jsx";
+import Polynomials from "./Polynomials.jsx";
 
 // Add future explainers here: { slug, domain, title, description, Component }.
 // The domain slug must match one of the entries in `domains` below.
@@ -42,6 +44,20 @@ export const explainers = [
     title: "Quadratic-Linear Systems",
     description: "Finding where a line meets a parabola by combining them into one quadratic and reading the discriminant.",
     Component: QuadraticLinearSystems,
+  },
+  {
+    slug: "function-transformations",
+    domain: "advanced-math",
+    title: "Function Transformations",
+    description: "How shifts, stretches, and reflections change inside vs. outside f(x) — and why the directions differ.",
+    Component: FunctionTransformations,
+  },
+  {
+    slug: "polynomials",
+    domain: "advanced-math",
+    title: "Polynomials",
+    description: "Reading roots, multiplicity (cross vs. bounce), and end behavior from a polynomial's factored form.",
+    Component: Polynomials,
   },
 ];
 

@@ -97,6 +97,7 @@ export default function ExponentialFunctions() {
         .dx-example-problem { font-size: 16px; margin: 0 0 14px; line-height: 1.4; }
         .dx-example-line  { font-size: 17px; font-variant-numeric: tabular-nums; margin: 6px 0; font-weight: 700; }
         .dx-example-link  { font-size: 14px; color: var(--mist); margin: 16px 0 0; font-style: italic; line-height: 1.45; }
+        .dx-step-num  { font-size: 11px; letter-spacing: 2px; color: var(--faint); font-weight: 700; text-transform: uppercase; margin: 20px 0 6px; }
       `}</style>
 
       <div className="dx">
@@ -272,6 +273,58 @@ export default function ExponentialFunctions() {
             </p>
             <p className="dx-example-link">
               What you really did: turned "grows 6% per year" into a base of 1.06, then plugged in. The arithmetic is secondary — getting b = 1.06 (not 0.06, not 6) is the entire translation.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Exponential Functions in Context ─────────────────────────────── */}
+        <section className="dx-section">
+          <h2 className="dx-section-title">Exponential Functions in Context</h2>
+          <p className="dx-section-intro">
+            Word problems repackage y = a·bˣ under different names. Recognizing the template — and translating the percent to the base — is the whole skill.
+          </p>
+
+          <div className="dx-panel">
+            <p className="dx-step-num" style={{ marginTop: 0 }}>Growth and decay templates</p>
+            <p className="dx-example-line">Growth: A = P(1 + r)ᵗ</p>
+            <p className="dx-example-line">Decay: &nbsp;A = P(1 − r)ᵗ</p>
+            <p className="dx-disguise-tell">
+              P is the starting amount, r is the rate per period as a decimal, t is the number of periods. These are exactly y = a·bˣ with a = P, b = (1 ± r), and x = t. Growth has b &gt; 1; decay has 0 &lt; b &lt; 1.
+            </p>
+
+            <p className="dx-step-num">Compound interest</p>
+            <p className="dx-example-line">A = P(1 + r/n)^(nt)</p>
+            <p className="dx-disguise-tell">
+              r is the annual rate, n is the number of compounding periods per year, t is years. More frequent compounding yields slightly more: $1,000 at 5% annual rate compounded monthly for 1 year gives $1,051.16 — above the simple $1,050 from annual compounding.
+            </p>
+
+            <p className="dx-step-num">Half-life and decay</p>
+            <p className="dx-example-line">A = A₀ · (½)^(t/h)</p>
+            <p className="dx-disguise-tell">
+              A₀ is the initial amount, h is the half-life, t is elapsed time. At t = h exactly half remains; at t = 2h one quarter remains. The base is ½, the exponent converts "how many half-lives have passed."
+            </p>
+
+            <p className="dx-step-num">The percent-to-base tell (the core trap)</p>
+            <p className="dx-example-line">+8% growth → b = 1.08 · 8% decay → b = 0.92</p>
+            <p className="dx-disguise-tell">
+              A percent in the problem becomes (1 ± rate) in the base. Never use the raw percent (0.08) as the base — that would be decay below zero. Never use 8 as the base. The translation: add for growth, subtract for decay, always from 1.
+            </p>
+          </div>
+
+          <p className="dx-label">WORKED EXAMPLE</p>
+          <div className="dx-panel">
+            <p className="dx-example-problem">
+              Problem: $2,000 is invested at 3% annual growth. Write a function for the value A after t years.
+            </p>
+            <p className="dx-disguise-tell">
+              "3% annual growth" is the tell — percent per period, so this is exponential with b = 1 + 0.03.
+            </p>
+            <p className="dx-example-line">Translate the percent: +3% growth → b = 1 + 0.03 = 1.03</p>
+            <p className="dx-example-line">Starting amount: P = 2,000</p>
+            <p className="dx-example-line">Model: A = 2,000 · (1.03)ᵗ</p>
+            <p className="dx-example-line">After 10 years: A = 2,000 · (1.03)¹⁰ ≈ 2,688</p>
+            <p className="dx-example-link">
+              The only step that requires thought is the percent-to-base translation. Everything else is substituting into A = P · bᵗ.
             </p>
           </div>
         </section>
