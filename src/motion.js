@@ -2,24 +2,35 @@
 // Every animation on the site imports from here — no inline timing values.
 // Tune page transitions and reveals here; nowhere else.
 
-// ── Existing (curve self-draws, value counters) ──────────────────────────────
-export const ease = [0.22, 1, 0.36, 1];
+// ── The single easing curve ─────────────────────────────────────────────────
+// One cubic-bezier for everything: entrances, exits, hovers, shared elements.
+// This one value is most of the "smooth feel." Never the browser default.
+export const EASE = [0.16, 1, 0.3, 1];
+
+// Back-compat alias — content animations (curve self-draw, counters) import
+// `ease`. Points at the same single curve so nothing uses the default.
+export const ease = EASE;
+
+// Longer content-animation durations (curve draw-in, value counters).
 export const duration = { fast: 0.3, medium: 0.6, slow: 1.2 };
 
-// ── Page navigation ───────────────────────────────────────────────────────────
-// duration in seconds; drift in px (= --space-5)
+// ── Page navigation ─────────────────────────────────────────────────────────
+// Entrances: opacity 0→1 + translateY(6px)→0, 350 ms. Exit: opacity only,
+// 120 ms, no movement. Shared-element (layoutId) morph: 300 ms. All one curve.
 export const nav = {
-  duration: 0.2,                       // enter: 200 ms
-  exitDur:  0.15,                      // exit: 150 ms — exits slightly faster
-  easeOut:  [0.0, 0.0, 0.2, 1.0],     // decelerate on enter
-  easeIn:   [0.4, 0.0, 1.0, 1.0],     // accelerate on exit
-  drift:    8,                         // px lateral shift on transition
-  layoutDur: 0.28,                     // shared-element position morph
+  enterDur:  0.35,   // 350 ms — first-mount entrance
+  exitDur:   0.12,   // 120 ms — opacity-only fade out
+  rise:      6,      // px — vertical entrance offset (SIX, not twenty)
+  layoutDur: 0.3,    // 300 ms — shared-element position/size morph
+  ease:      EASE,
+  // Legacy names kept so existing imports resolve to the single curve:
+  easeOut:   EASE,
+  easeIn:    EASE,
 };
 
-// ── Section entrance stagger ─────────────────────────────────────────────────
+// ── Section / sibling entrance stagger ──────────────────────────────────────
 export const stagger = {
-  childDelay: 0.04,   // 40 ms between siblings
-  duration:   0.25,   // 250 ms per item
-  rise:       8,      // px — same value as nav.drift for consistency
+  childDelay: 0.025,  // 25 ms between siblings
+  duration:   0.35,   // 350 ms per item
+  rise:       6,      // px — matches nav.rise
 };

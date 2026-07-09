@@ -163,7 +163,7 @@ export default function CompletingTheSquare() {
                 ))}
                 {/* axes */}
                 <line x1={sx(0)} y1="0" x2={sx(0)} y2={H} stroke="var(--faint)" strokeWidth="1.5" />
-                <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--mist)" strokeWidth="2" />
+                <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--muted)" strokeWidth="2" />
                 {/* curve */}
                 <polyline
                   clipPath="url(#cts-draw)"
@@ -183,7 +183,7 @@ export default function CompletingTheSquare() {
                       cx={sx(r)}
                       cy={sy(0)}
                       r="4"
-                      fill="var(--mist)"
+                      fill="var(--muted)"
                       stroke="var(--bg)"
                       strokeWidth="2"
                     />

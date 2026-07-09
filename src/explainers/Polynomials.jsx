@@ -164,7 +164,7 @@ export default function Polynomials() {
                 ))}
                 {/* axes */}
                 <line x1={sx(0)} y1="0" x2={sx(0)} y2={H} stroke="var(--faint)" strokeWidth="1.5" />
-                <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--mist)" strokeWidth="2" />
+                <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--muted)" strokeWidth="2" />
                 {/* curve */}
                 {pts.length > 1 && (
                   <polyline

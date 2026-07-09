@@ -150,7 +150,7 @@ export default function ExponentialFunctions() {
                 {/* x-axis — also the horizontal asymptote y = 0; dashed to distinguish */}
                 <line
                   x1="0" y1={sy(0)} x2={W} y2={sy(0)}
-                  stroke="var(--mist)" strokeWidth="2" strokeDasharray="6 3"
+                  stroke="var(--muted)" strokeWidth="2" strokeDasharray="6 3"
                 />
                 <text
                   x={W - 6} y={sy(0) - 7}

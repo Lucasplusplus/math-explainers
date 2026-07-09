@@ -135,8 +135,9 @@ export default function Home() {
           color: #f2f2f0;
           text-decoration: none;
           border: 1px solid rgba(255,255,255,0.22);
-          border-radius: 5px;
-          transition: border-color 0.15s, background-color 0.15s;
+          border-radius: 6px;
+          transition: border-color var(--dur-hover) var(--ease),
+                      background-color var(--dur-hover) var(--ease);
         }
         .hero-cta:hover {
           border-color: rgba(255,255,255,0.55);
@@ -151,14 +152,15 @@ export default function Home() {
           background: transparent;
           color: #888885;
           border: 1px solid rgba(255,255,255,0.18);
-          border-radius: 5px;
+          border-radius: 6px;
           padding: 7px 14px;
           font-family: var(--font);
           font-size: 12px;
           font-weight: 500;
           cursor: pointer;
           letter-spacing: 0.02em;
-          transition: border-color 0.15s, color 0.15s;
+          transition: border-color var(--dur-hover) var(--ease),
+                      color var(--dur-hover) var(--ease);
         }
         .sound-toggle:hover {
           border-color: rgba(255,255,255,0.45);

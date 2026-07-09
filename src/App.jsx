@@ -11,21 +11,19 @@ import { explainers, domains } from "./explainers/registry.js";
 const segmentCount = (p) =>
   p === "/" ? 0 : p.split("/").filter(Boolean).length;
 
-// Variants use framer-motion's `custom` prop (the current nav direction, ±1).
-// AnimatePresence.custom supplies the direction to exit variants even after
-// the exiting element is frozen, so exits always use the freshest direction.
+// Entrance: opacity 0→1 with a 6px rise. Exit: opacity only, no movement.
+// One easing curve for both (nav.ease). No lateral direction logic.
 const pageVariants = {
-  initial: (d) => ({ opacity: 0, x: d * nav.drift }),
+  initial: { opacity: 0, y: nav.rise },
   enter: {
     opacity: 1,
-    x: 0,
-    transition: { duration: nav.duration, ease: nav.easeOut },
+    y: 0,
+    transition: { duration: nav.enterDur, ease: nav.ease },
   },
-  exit: (d) => ({
+  exit: {
     opacity: 0,
-    x: d * -nav.drift,
-    transition: { duration: nav.exitDur, ease: nav.easeIn },
-  }),
+    transition: { duration: nav.exitDur, ease: nav.ease },
+  },
 };
 
 // Keyed wrapper — AnimatePresence freezes this element (with its location

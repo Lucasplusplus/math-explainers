@@ -135,7 +135,7 @@ export default function QuadraticLinearSystems() {
                 ))}
                 {/* axes */}
                 <line x1={sx(0)} y1="0" x2={sx(0)} y2={H} stroke="var(--faint)" strokeWidth="1.5" />
-                <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--mist)" strokeWidth="2" />
+                <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--muted)" strokeWidth="2" />
                 {/* parabola */}
                 <polyline
                   clipPath="url(#ql-draw)"
@@ -152,7 +152,7 @@ export default function QuadraticLinearSystems() {
                   y1={sy(Math.max(-YR * 5, Math.min(YR * 5, ly1)))}
                   x2={sx(lx2)}
                   y2={sy(Math.max(-YR * 5, Math.min(YR * 5, ly2)))}
-                  stroke="var(--mist)"
+                  stroke="var(--muted)"
                   strokeWidth="2.5"
                   strokeDasharray="8 5"
                 />

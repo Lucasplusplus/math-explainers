@@ -165,7 +165,7 @@ export default function Discriminant() {
             </div>
 
             {roots.length > 0 && (
-              <p style={{ fontSize: 15, color: "var(--mist)", marginTop: 14 }}>
+              <p style={{ fontSize: 15, color: "var(--muted)", marginTop: 14 }}>
                 {roots.length === 2
                   ? `x = ${fmt(roots[0])}  or  x = ${fmt(roots[1])}`
                   : `x = ${fmt(roots[0])} (touches, doesn't cross)`}
@@ -213,7 +213,7 @@ export default function Discriminant() {
                 ))}
                 {/* axes */}
                 <line x1={sx(0)} y1="0" x2={sx(0)} y2={H} stroke="var(--faint)" strokeWidth="1.5" />
-                <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--mist)" strokeWidth="2" />
+                <line x1="0" y1={sy(0)} x2={W} y2={sy(0)} stroke="var(--muted)" strokeWidth="2" />
                 {/* curve — clipPath fires draw-in once on scroll; thereafter stays open */}
                 <polyline
                   clipPath="url(#disc-draw)"
@@ -226,7 +226,7 @@ export default function Discriminant() {
                 />
                 {/* vertex */}
                 {isQuad && Math.abs(vx) <= XR && Math.abs(vy) <= YR && (
-                  <circle cx={sx(vx)} cy={sy(vy)} r="3.5" fill="var(--mist)" />
+                  <circle cx={sx(vx)} cy={sy(vy)} r="3.5" fill="var(--muted)" />
                 )}
                 {/* roots */}
                 {roots

@@ -1,6 +1,6 @@
 /* ── Fonts ──────────────────────────────────────────────────────────────────
-   Inter is loaded via Google Fonts in index.html.
-   Redaction kept for the hero title only (dark cinematic surface).
+   Inter is loaded via Google Fonts in index.html and used everywhere.
+   Redaction kept only for the hero title (dark cinematic surface, Home.jsx).
    ─────────────────────────────────────────────────────────────────────────── */
 @font-face {
   font-family: "Redaction 1";
@@ -13,47 +13,44 @@
   font-weight: 700; font-style: normal; font-display: swap;
 }
 
-/* ── Design tokens ──────────────────────────────────────────────────────────
-   Every value on the site resolves to a token.
-   No scattered magic numbers anywhere.
+/* ── Design tokens — the single source of truth ─────────────────────────────
+   Every value on the site resolves to a token. No scattered magic numbers.
    ─────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* ── Color — surfaces ─────────────────────────────────────────────── */
-  --bg:        #ffffff;
-  --surface:   #f7f7f6;    /* panels, code, inputs */
-  --surface-2: #efeeec;    /* hover on surface */
+  /* ── Color — planes (three distinct tones, always hairline-separated) ── */
+  --bg:        #FCFCFC;   /* the page */
+  --surface:   #F4F4F5;   /* recessed: wells, code, inputs */
+  --surface-2: #FFFFFF;   /* raised: cards, panels */
 
   /* ── Color — text ─────────────────────────────────────────────────── */
-  --ink:    #0d0d0d;        /* primary — headings, body */
-  --mist:   #5a5a58;        /* secondary — descriptions  6.9:1 on --bg */
-  --faint:  #767674;        /* tertiary — meta, labels   4.5:1 on --bg */
+  --ink:    #18181B;      /* headings, primary text */
+  --muted:  #71717A;      /* secondary text, labels */
+  --faint:  #A1A1AA;      /* tertiary: metadata, disabled, dimmed */
 
   /* ── Color — borders ──────────────────────────────────────────────── */
-  --line:   #e5e5e3;        /* hairline dividers */
-  --line-2: #d0cfcc;        /* stronger panel borders */
+  --line:        #E4E4E7; /* all hairline borders, 1px */
+  --line-hover:  #D4D4D8; /* border on hover — the "lift" */
 
-  /* ── Color — accent (ONE chromatic color) ─────────────────────────── */
-  --accent:        #5e6ad2; /* Linear blurple — 4.7:1 on --bg */
-  --accent-ink:    #ffffff;
-  --accent-subtle: rgba(94, 106, 210, 0.08);
-  --accent-border: rgba(94, 106, 210, 0.4);
+  /* ── Color — accent (the ONLY interactive color) ──────────────────── */
+  --accent:       #2563EB;
+  --accent-hover: #1D4ED8;
+  --accent-ink:   #FFFFFF;
 
   /* ── Color — semantic ─────────────────────────────────────────────── */
-  --correct:      #15803d;  /* 5.0:1 on --bg */
-  --correct-bg:   #f0fdf4;
-  --incorrect:    #b91c1c;  /* 6.5:1 on --bg */
-  --incorrect-bg: #fef2f2;
+  --correct:   #16A34A;
+  --incorrect: #DC2626;
 
   /* ── Typography ───────────────────────────────────────────────────── */
   --font:      "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
 
-  /* Type scale — real contrast between levels */
-  --text-1: 13px;   /* captions, footnotes, labels */
-  --text-2: 15px;   /* body */
-  --text-3: 22px;   /* section headings */
-  --text-4: 32px;   /* page titles (index) */
-  --text-5: 44px;   /* concept page h1 */
+  /* Type roles (exact) */
+  --fs-title:   32px;    /* page title    1.15 / 650 / -0.02em */
+  --fs-section: 20px;    /* section head  1.3  / 600 / -0.01em */
+  --fs-body:    15px;    /* body          1.6  / 400 */
+  --fs-ui:      13.5px;  /* UI, buttons   1    / 500 */
+  --fs-label:   12px;    /* labels/meta   1.2  / 500 / 0.04em / uppercase */
+  --fs-passage: 16px;    /* reading       1.7  / max 65ch */
 
   /* ── Spacing — 8pt grid ───────────────────────────────────────────── */
   --space-1:  4px;
@@ -70,44 +67,18 @@
   --space-12: 120px;
 
   /* ── Radii ────────────────────────────────────────────────────────── */
-  --r-sm: 4px;
-  --r-md: 6px;
+  --r-btn:   6px;   /* buttons, choices, inputs */
+  --r-card:  8px;   /* cards, panels */
+  --r-focus: 6px;   /* focus ring corner */
 
-  /* ── Component: button ────────────────────────────────────────────── */
-  --btn-bg:         var(--ink);
-  --btn-fg:         #ffffff;
-  --btn-bg-hover:   #2a2a28;
-  --btn-radius:     var(--r-sm);
-  --btn-pd-y:       9px;
-  --btn-pd-x:       16px;
-  --btn-font-size:  var(--text-1);
-  --btn-ghost-bg:       transparent;
-  --btn-ghost-fg:       var(--ink);
-  --btn-ghost-border:   var(--line-2);
-  --btn-ghost-bg-hover: var(--surface);
+  /* ── Depth ────────────────────────────────────────────────────────── */
+  /* Rest depth is plane tone + hairline — never shadow. This single shadow
+     is reserved for ephemeral overlays only (dropdowns, dialogs). */
+  --shadow-pop: 0 4px 16px rgba(0, 0, 0, 0.08);
 
-  /* ── Component: answer choice ─────────────────────────────────────── */
-  --choice-bg:             var(--bg);
-  --choice-bg-hover:       var(--surface);
-  --choice-border:         var(--line);
-  --choice-radius:         var(--r-sm);
-  --choice-pd-y:           12px;
-  --choice-pd-x:           16px;
-  --choice-selected-bg:    var(--ink);
-  --choice-selected-fg:    #ffffff;
-  --choice-correct-bg:     var(--correct-bg);
-  --choice-correct-border: var(--correct);
-  --choice-correct-fg:     var(--correct);
-  --choice-incorrect-bg:   var(--incorrect-bg);
-  --choice-incorrect-border: var(--incorrect);
-  --choice-incorrect-fg:   var(--incorrect);
-
-  /* ── Component: question block ────────────────────────────────────── */
-  --q-bg:     var(--bg);
-  --q-border: var(--line);
-  --q-radius: var(--r-md);
-  --q-pd:     var(--space-6);
-  --q-gap:    var(--space-3);
+  /* ── Motion ───────────────────────────────────────────────────────── */
+  --ease:      cubic-bezier(0.16, 1, 0.3, 1);  /* the one curve, everywhere */
+  --dur-hover: 120ms;
 }
 
 /* ── Reset ────────────────────────────────────────────────────────────────── */
@@ -125,67 +96,70 @@ body {
 
 a { color: inherit; }
 
-/* ── Focus ring — replaces browser default ────────────────────────────────── */
+/* ── Focus ring — 2px accent, offset 2px, radius matches element ───────────── */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: var(--r-sm);
+  border-radius: var(--r-focus);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
    GLOBAL COMPONENTS
    ══════════════════════════════════════════════════════════════════════════ */
 
-/* Primary button */
+/* Buttons — only two styles exist: primary (accent) and secondary (ghost). */
 .site-btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  background: var(--btn-bg);
-  color: var(--btn-fg);
-  border: none;
-  border-radius: var(--btn-radius);
-  padding: var(--btn-pd-y) var(--btn-pd-x);
+  gap: var(--space-2);
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-btn);
+  padding: 8px 14px;
   font-family: var(--font);
-  font-size: var(--btn-font-size);
-  font-weight: 600;
+  font-size: var(--fs-ui);
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: 0.01em;
   cursor: pointer;
   text-decoration: none;
-  transition: background 0.1s;
+  transition: background-color var(--dur-hover) var(--ease),
+              border-color var(--dur-hover) var(--ease);
 }
-.site-btn:hover { background: var(--btn-bg-hover); }
+.site-btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 .site-btn.ghost {
-  background: var(--btn-ghost-bg);
-  color: var(--btn-ghost-fg);
-  border: 1px solid var(--btn-ghost-border);
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
 }
-.site-btn.ghost:hover { background: var(--btn-ghost-bg-hover); }
+.site-btn.ghost:hover { background: var(--surface); border-color: var(--line-hover); }
 @media (prefers-reduced-motion: reduce) { .site-btn { transition: none; } }
 
-/* Answer choice */
+/* Answer choice — hairline card; state shown by border + text color only. */
 .answer-choice {
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
-  padding: var(--choice-pd-y) var(--choice-pd-x);
-  border: 1px solid var(--choice-border);
-  border-radius: var(--choice-radius);
-  background: var(--choice-bg);
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-btn);
+  background: var(--surface-2);
   cursor: pointer;
   font-family: var(--font);
-  font-size: var(--text-1);
+  font-size: var(--fs-body);
+  line-height: 1.6;
   color: var(--ink);
   text-align: left;
   width: 100%;
-  transition: background 0.1s, border-color 0.1s;
+  transition: background-color var(--dur-hover) var(--ease),
+              border-color var(--dur-hover) var(--ease),
+              color var(--dur-hover) var(--ease);
 }
 @media (prefers-reduced-motion: reduce) { .answer-choice { transition: none; } }
-.answer-choice:hover        { background: var(--choice-bg-hover); }
-.answer-choice.is-selected  { background: var(--choice-selected-bg); color: var(--choice-selected-fg); border-color: var(--choice-selected-bg); }
-.answer-choice.is-correct   { background: var(--choice-correct-bg); color: var(--choice-correct-fg); border-color: var(--choice-correct-border); }
-.answer-choice.is-incorrect { background: var(--choice-incorrect-bg); color: var(--choice-incorrect-fg); border-color: var(--choice-incorrect-border); }
+.answer-choice:hover        { background: var(--surface); border-color: var(--line-hover); }
+.answer-choice.is-selected  { border-color: var(--accent); color: var(--ink); }
+.answer-choice.is-correct   { border-color: var(--correct); color: var(--correct); }
+.answer-choice.is-incorrect { border-color: var(--incorrect); color: var(--incorrect); }
 
 .choice-list {
   list-style: none;
@@ -197,12 +171,13 @@ a { color: inherit; }
 }
 
 .question-block {
-  border: 1px solid var(--q-border);
-  border-radius: var(--q-radius);
-  padding: var(--q-pd);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background: var(--surface-2);
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--q-gap);
+  gap: var(--space-3);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -223,49 +198,40 @@ a { color: inherit; }
   .ix, .dm { padding: var(--space-7) var(--space-5) var(--space-10); }
 }
 
-/* Back link */
+/* Back link — UI type */
 .ix-back, .dm-back {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: var(--text-1);
+  gap: 6px;
+  font-size: var(--fs-ui);
   font-weight: 500;
-  color: var(--faint);
+  color: var(--muted);
   text-decoration: none;
   margin-bottom: var(--space-9);
-  letter-spacing: 0.01em;
-  transition: color 0.1s;
+  transition: color var(--dur-hover) var(--ease);
 }
 .ix-back:hover, .dm-back:hover { color: var(--ink); }
 
-/* Kicker */
+/* Kicker — label/meta */
 .ix-kicker, .dm-kicker {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--faint);
+  color: var(--muted);
   margin: 0 0 var(--space-2);
 }
 
 /* Page title */
-.ix-title {
-  font-size: clamp(28px, 5vw, var(--text-4));
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
+.ix-title, .dm-title {
+  font-size: var(--fs-title);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   color: var(--ink);
-  margin: 0 0 var(--space-10);
 }
-
-.dm-title {
-  font-size: clamp(28px, 5vw, var(--text-4));
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
-  color: var(--ink);
-  margin: 0 0 var(--space-7);
-}
+.ix-title { margin: 0 0 var(--space-10); }
+.dm-title { margin: 0 0 var(--space-7); }
 
 /* List */
 .ix-list, .dm-list {
@@ -282,39 +248,41 @@ a { color: inherit; }
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-5) 0;
+  padding: var(--space-5) var(--space-4);
+  margin: 0 calc(-1 * var(--space-4));
   text-decoration: none;
   color: var(--ink);
-  border-radius: var(--r-sm);
-  transition: background 0.1s;
+  border-radius: var(--r-btn);
+  transition: background-color var(--dur-hover) var(--ease);
 }
-.ix-link:hover, .dm-link:hover { background: transparent; }
+.ix-link:hover, .dm-link:hover { background: var(--surface); }
 
 .ix-info, .dm-info { flex: 1; min-width: 0; }
 
 .ix-name, .dm-name {
-  font-size: 15px;
+  font-size: var(--fs-body);
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--ink);
-  margin: 0 0 3px;
-  transition: color 0.1s;
+  margin: 0 0 var(--space-1);
+  transition: color var(--dur-hover) var(--ease);
 }
 .ix-link:hover .ix-name,
 .dm-link:hover .dm-name { color: var(--accent); }
 
 .ix-desc, .dm-desc {
-  font-size: var(--text-1);
-  color: var(--mist);
+  font-size: var(--fs-body);
+  color: var(--muted);
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .ix-arrow, .dm-arrow {
-  font-size: 15px;
+  font-size: var(--fs-body);
   color: var(--faint);
   flex-shrink: 0;
-  transition: transform 0.15s, color 0.1s;
+  transition: transform var(--dur-hover) var(--ease),
+              color var(--dur-hover) var(--ease);
 }
 .ix-link:hover .ix-arrow,
 .dm-link:hover .dm-arrow {
@@ -323,7 +291,7 @@ a { color: inherit; }
 }
 
 .dm-empty {
-  font-size: var(--text-1);
+  font-size: var(--fs-body);
   color: var(--faint);
   padding: var(--space-5) 0;
   border-bottom: 1px solid var(--line);
@@ -332,6 +300,7 @@ a { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   .ix-back, .dm-back,
+  .ix-link, .dm-link,
   .ix-name, .dm-name,
   .ix-arrow, .dm-arrow { transition: none; }
 }
@@ -357,14 +326,13 @@ a { color: inherit; }
 .dx-back {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: var(--text-1);
+  gap: 6px;
+  font-size: var(--fs-ui);
   font-weight: 500;
-  color: var(--faint);
+  color: var(--muted);
   text-decoration: none;
-  letter-spacing: 0.01em;
   margin-bottom: var(--space-4);
-  transition: color 0.1s;
+  transition: color var(--dur-hover) var(--ease);
 }
 .dx-back:hover { color: var(--ink); }
 
@@ -380,51 +348,35 @@ a { color: inherit; }
   .dx-grid { grid-template-columns: 1fr; gap: var(--space-7); }
 }
 
-/* Metadata labels */
-.dx-domain {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--faint);
+/* Metadata labels — label/meta role */
+.dx-domain, .dx-kicker, .dx-label, .dx-step-num,
+.dx-disguise-name, .dx-tgroup-label {
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  color: var(--muted);
   font-weight: 500;
-  margin: 0 0 var(--space-1);
   text-transform: uppercase;
 }
+.dx-domain  { margin: 0 0 var(--space-1); }
+.dx-kicker  { margin: 0 0 var(--space-2); }
+.dx-label   { margin: var(--space-6) 0 var(--space-2); }
 
-.dx-kicker {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--faint);
-  font-weight: 600;
-  margin: 0 0 var(--space-2);
-  text-transform: uppercase;
-}
-
-/* Concept title (motion.h1, shared-element target) */
+/* Concept title (motion.h1, shared-element target) — page-title role */
 .dx-title {
-  font-size: clamp(30px, 4.5vw, var(--text-5));
-  line-height: 1.04;
-  letter-spacing: -0.03em;
-  font-weight: 750;
+  font-size: var(--fs-title);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 650;
   margin: 0 0 var(--space-3);
   color: var(--ink);
 }
 
 .dx-dek {
-  font-size: 15px;
-  color: var(--mist);
+  font-size: var(--fs-body);
+  color: var(--muted);
   margin: 0 0 var(--space-6);
-  line-height: 1.65;
+  line-height: 1.6;
   max-width: 50ch;
-}
-
-/* Section label (uppercase metadata) */
-.dx-label {
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--faint);
-  font-weight: 600;
-  margin: var(--space-6) 0 var(--space-2);
-  text-transform: uppercase;
 }
 
 /* Math display */
@@ -455,8 +407,8 @@ a { color: inherit; }
 }
 
 .dx-formula-sub {
-  font-size: var(--text-1);
-  color: var(--mist);
+  font-size: var(--fs-body);
+  color: var(--muted);
   margin: 3px 0 0;
   font-variant-numeric: tabular-nums;
 }
@@ -473,10 +425,10 @@ a { color: inherit; }
 }
 
 .dx-formula-note {
-  font-size: var(--text-1);
-  color: var(--mist);
+  font-size: var(--fs-body);
+  color: var(--muted);
   margin: 3px 0 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* Inline fraction (Vieta's, CompletingTheSquare) */
@@ -490,17 +442,16 @@ a { color: inherit; }
 .dx-frac-num { padding: 0 4px 2px; }
 .dx-frac-den { padding: 2px 4px 0; border-top: 1.5px solid currentColor; }
 
-/* Status pill */
+/* Status pill — neutral ink chip */
 .dx-pill {
   display: inline-block;
   padding: 7px 13px;
-  border-radius: var(--r-sm);
-  font-size: var(--text-1);
-  font-weight: 600;
+  border-radius: var(--r-btn);
+  font-size: var(--fs-ui);
+  font-weight: 500;
   margin-top: var(--space-2);
   background: var(--ink);
-  color: #ffffff;
-  letter-spacing: 0.01em;
+  color: var(--accent-ink);
 }
 
 /* Dim/active rules */
@@ -510,8 +461,8 @@ a { color: inherit; }
   margin: 3px 0;
   line-height: 1.35;
   font-variant-numeric: tabular-nums;
-  color: var(--line-2);
-  transition: color 0.15s;
+  color: var(--faint);
+  transition: color var(--dur-hover) var(--ease);
 }
 .dx-rule.is-active { color: var(--ink); }
 
@@ -520,8 +471,8 @@ a { color: inherit; }
   font-size: 19px;
   font-weight: 700;
   margin: 3px 0;
-  color: var(--line-2);
-  transition: color 0.15s;
+  color: var(--faint);
+  transition: color var(--dur-hover) var(--ease);
 }
 .dx-eb.is-active { color: var(--ink); }
 
@@ -529,11 +480,11 @@ a { color: inherit; }
   .dx-rule, .dx-eb { transition: none; }
 }
 
-/* Interactive panel (grapher, worked-example wrapper) */
+/* Interactive panel — raised plane (card): white, hairline, 8px radius */
 .dx-panel {
-  background: var(--surface);
+  background: var(--surface-2);
   border: 1px solid var(--line);
-  border-radius: var(--r-md);
+  border-radius: var(--r-card);
   padding: var(--space-5);
 }
 
@@ -553,11 +504,11 @@ a { color: inherit; }
 }
 
 .dx-svar {
-  font-size: 15px;
+  font-size: var(--fs-body);
   width: 16px;
   font-style: italic;
   font-weight: 500;
-  color: var(--mist);
+  color: var(--muted);
   flex-shrink: 0;
 }
 
@@ -565,35 +516,35 @@ a { color: inherit; }
   font-variant-numeric: tabular-nums;
   width: 36px;
   text-align: right;
-  font-size: var(--text-1);
+  font-size: var(--fs-ui);
   font-weight: 700;
   color: var(--ink);
   flex-shrink: 0;
 }
 
-/* Inline action button */
+/* Inline action button — primary (accent) */
 .dx-btn {
   display: inline-flex;
   align-items: center;
-  background: var(--ink);
-  color: #ffffff;
-  border: none;
-  border-radius: var(--r-sm);
-  padding: 9px 16px;
-  font-size: var(--text-1);
-  font-weight: 600;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-btn);
+  padding: 8px 14px;
+  font-size: var(--fs-ui);
+  font-weight: 500;
   cursor: pointer;
   font-family: var(--font);
   margin-top: var(--space-5);
-  letter-spacing: 0.01em;
-  transition: background 0.1s;
+  transition: background-color var(--dur-hover) var(--ease),
+              border-color var(--dur-hover) var(--ease);
 }
-.dx-btn:hover { background: var(--btn-bg-hover); }
+.dx-btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 @media (prefers-reduced-motion: reduce) { .dx-btn { transition: none; } }
 
 /* Footnote / hint */
 .dx-note {
-  font-size: 12px;
+  font-size: var(--fs-label);
   color: var(--faint);
   margin: var(--space-2) 0 0;
   line-height: 1.5;
@@ -606,7 +557,7 @@ a { color: inherit; }
   gap: var(--space-2);
   margin: 6px 0;
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-family: var(--font);
   user-select: none;
 }
@@ -618,45 +569,45 @@ a { color: inherit; }
   flex-shrink: 0;
 }
 
-/* Toggle button (Polynomials) */
+/* Toggle button (Polynomials) — secondary (ghost) */
 .dx-toggle {
   padding: 8px 14px;
   font-family: var(--font);
-  font-size: var(--text-1);
+  font-size: var(--fs-ui);
   cursor: pointer;
-  background: var(--ink);
-  color: #ffffff;
-  border: none;
-  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--r-btn);
   margin-top: var(--space-3);
-  font-weight: 600;
+  font-weight: 500;
   width: 100%;
   text-align: left;
-  letter-spacing: 0.01em;
-  transition: background 0.1s;
+  transition: background-color var(--dur-hover) var(--ease),
+              border-color var(--dur-hover) var(--ease);
 }
-.dx-toggle:hover { background: var(--btn-bg-hover); }
+.dx-toggle:hover { background: var(--surface); border-color: var(--line-hover); }
 @media (prefers-reduced-motion: reduce) { .dx-toggle { transition: none; } }
 
 /* Roots list (Polynomials) */
 .dx-root-list { margin: var(--space-3) 0 0; }
 .dx-root-item {
-  font-size: 14px;
+  font-size: var(--fs-body);
   margin: 4px 0;
   display: flex;
   align-items: baseline;
   gap: var(--space-2);
 }
 .dx-root-coord { font-weight: 600; min-width: 52px; }
-.dx-root-mult  { font-size: 12px; color: var(--mist); }
+.dx-root-mult  { font-size: var(--fs-label); color: var(--muted); }
 .dx-root-bx {
-  font-size: 11px;
+  font-size: var(--fs-label);
   font-weight: 600;
   padding: 2px 6px;
   border-radius: 3px;
   background: var(--ink);
-  color: #ffffff;
-  letter-spacing: 0.05em;
+  color: var(--accent-ink);
+  letter-spacing: 0.04em;
 }
 
 /* Transformation table (FunctionTransformations) */
@@ -668,58 +619,45 @@ a { color: inherit; }
 @media (max-width: 720px) {
   .dx-tgroups { grid-template-columns: 1fr; gap: var(--space-5); }
 }
-.dx-tgroup-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--faint);
-  margin: 0 0 var(--space-3);
-}
+.dx-tgroup-label { margin: 0 0 var(--space-3); }
 .dx-trow {
   display: flex;
   align-items: baseline;
   gap: var(--space-3);
   margin: var(--space-2) 0;
-  font-size: 14px;
+  font-size: var(--fs-body);
 }
 .dx-trow-form {
-  font-size: 16px;
+  font-size: var(--fs-passage);
   font-weight: 600;
   min-width: 110px;
   font-variant-numeric: tabular-nums;
 }
-.dx-trow-desc { color: var(--mist); }
+.dx-trow-desc { color: var(--muted); }
 
 /* Step labels (CompletingTheSquare, ExponentialFunctions, QLS) */
-.dx-step-num {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--faint);
-  font-weight: 600;
-  text-transform: uppercase;
-  margin: var(--space-5) 0 var(--space-1);
-}
+.dx-step-num { margin: var(--space-5) 0 var(--space-1); }
 .dx-step-note {
-  font-size: var(--text-1);
-  color: var(--mist);
+  font-size: var(--fs-body);
+  color: var(--muted);
   margin: 3px 0 0;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 /* Cross-reference link (QuadraticLinearSystems) */
 .dx-disc-link {
-  font-size: var(--text-1);
-  color: var(--mist);
+  font-size: var(--fs-body);
+  color: var(--muted);
   margin: var(--space-4) 0 0;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 .dx-disc-link a {
   font-weight: 600;
   color: var(--accent);
   text-decoration: none;
+  transition: color var(--dur-hover) var(--ease);
 }
-.dx-disc-link a:hover { text-decoration: underline; }
+.dx-disc-link a:hover { color: var(--accent-hover); text-decoration: underline; }
 
 /* ── Sections below the hero grid ──────────────────────────────────── */
 .dx-section {
@@ -729,18 +667,19 @@ a { color: inherit; }
 }
 
 .dx-section-title {
-  font-size: var(--text-3);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-size: var(--fs-section);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
   margin: 0 0 var(--space-2);
   color: var(--ink);
 }
 
 .dx-section-intro {
-  font-size: 15px;
-  color: var(--mist);
+  font-size: var(--fs-body);
+  color: var(--muted);
   margin: 0 0 var(--space-7);
-  line-height: 1.65;
+  line-height: 1.6;
   max-width: 62ch;
 }
 
@@ -752,37 +691,30 @@ a { color: inherit; }
 }
 
 .dx-disguise {
-  border-left: 2px solid var(--line-2);
+  border-left: 2px solid var(--line);
   padding: 0 0 0 var(--space-4);
 }
 
-.dx-disguise-name {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--faint);
-  margin: 0 0 var(--space-2);
-}
+.dx-disguise-name { margin: 0 0 var(--space-2); }
 
 .dx-disguise-q {
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-style: italic;
   margin: 0 0 var(--space-2);
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--ink);
 }
 
 .dx-disguise-tell {
-  font-size: 13px;
-  color: var(--mist);
+  font-size: var(--fs-body);
+  color: var(--muted);
   margin: 0 0 var(--space-2);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 .dx-disguise-tell b { font-weight: 600; color: var(--ink); }
 
 .dx-disguise-map {
-  font-size: 13px;
+  font-size: var(--fs-body);
   font-variant-numeric: tabular-nums;
   color: var(--faint);
   font-weight: 600;
@@ -791,13 +723,13 @@ a { color: inherit; }
 
 /* Example problem */
 .dx-example-problem {
-  font-size: 15px;
+  font-size: var(--fs-body);
   margin: 0 0 var(--space-3);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 .dx-example-line {
-  font-size: 16px;
+  font-size: var(--fs-passage);
   font-variant-numeric: tabular-nums;
   margin: 4px 0;
   font-weight: 600;
@@ -805,19 +737,19 @@ a { color: inherit; }
 }
 
 .dx-example-link {
-  font-size: var(--text-1);
-  color: var(--mist);
+  font-size: var(--fs-body);
+  color: var(--muted);
   margin: var(--space-4) 0 0;
   font-style: italic;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
-/* Video embed */
+/* Video embed — recessed well */
 .dx-video-wrap {
   aspect-ratio: 2160 / 1322;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--r-md);
+  border-radius: var(--r-card);
   overflow: hidden;
   margin-top: var(--space-6);
   max-width: 680px;
