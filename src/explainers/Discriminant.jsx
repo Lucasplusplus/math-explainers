@@ -149,8 +149,8 @@ export default function Discriminant() {
         .dx-srow { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
         .dx-svar { font-size: 18px; width: 18px; font-style: italic; }
         .dx-sval { font-variant-numeric: tabular-nums; width: 34px; text-align: right; font-size: 15px; font-weight: 700; }
-        .dx-btn { background: var(--ink); color: var(--bg); border: none; border-radius: 4px; padding: 12px 22px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 18px; }
-        .dx-btn:hover { background: var(--mist); }
+        .dx-btn { background: var(--btn-bg); color: var(--btn-fg); border: none; border-radius: var(--btn-radius); padding: var(--btn-pd-y) var(--btn-pd-x); font-size: var(--btn-font-size); font-weight: 700; cursor: pointer; font-family: inherit; margin-top: var(--space-7); }
+        .dx-btn:hover { background: var(--btn-bg-hover); }
         .dx-note { font-size: 12px; color: var(--faint); margin: 10px 0 0; }
 
         .dx-section { margin-top: 56px; padding-top: 32px; border-top: 1.5px solid var(--line); }

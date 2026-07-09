@@ -1,5 +1,19 @@
 # Devlog
 
+## 2026-07-08 (design system)
+
+Extended `src/index.css` with a design-system token layer and shared component classes; updated `Discriminant.jsx` to reference the new tokens. No new dependencies, no routing changes.
+
+**Palette fix:** `--faint` darkened from `#9a9a9a` to `#767676` — the old value was 2.81:1 against `--bg`, failing WCAG AA; the new value is 4.54:1. All text-role palette entries now pass AA. (`--accent: #8a8a8a` is used only as SVG fill and slider `accent-color`, never as text, so it is unchanged.)
+
+**New tokens in `:root`:** answer-state colors (`--correct #1e5c1e` at 7.3:1, `--correct-bg #f5faf5`, `--incorrect #7a1f1f` at 10.1:1, `--incorrect-bg #faf5f5`); button tokens (`--btn-bg/fg/bg-hover/radius/pd-y/pd-x/font-size` + ghost variants); answer-choice row tokens (`--choice-*` including selected/correct/incorrect states); question block tokens (`--q-bg/border/radius/pd/gap`).
+
+**New global classes in `index.css`:** `.site-btn`, `.site-btn.ghost`, `.answer-choice` (+ `.is-selected`, `.is-correct`, `.is-incorrect`), `.choice-list`, `.question-block`. These respect `prefers-reduced-motion` on the choice-row transitions.
+
+**Applied to existing pages:** `Discriminant.jsx` `.dx-btn` embedded style now references `--btn-bg`, `--btn-fg`, `--btn-bg-hover`, `--btn-radius`, `--btn-pd-y`, `--btn-pd-x`, `--btn-font-size`, `--space-7` — no more hardcoded pixel values on the button.
+
+
+
 ## 2026-07-08
 
 Converted both index pages to a capped two-column card grid. `DomainIndex.jsx` (the per-domain list, e.g. `/advanced-math`) and `ExplainerIndex.jsx` (the top-level `/explainers` list) now use `display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--space-7)` (21 px). The container max-width stays at 720 px (unchanged), and the column-gap uses the existing Fibonacci `--space-7` variable rather than a new raw value. Collapses to a single column at 640 px. No card styling was touched — borders, hover state, typography, and link behavior are identical.

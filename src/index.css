@@ -30,9 +30,9 @@
   --panel: #fafafa;
   --ink: #111111;
   --mist: #5c5c5c;
-  --faint: #9a9a9a;
+  --faint: #767676;    /* was #9a9a9a — darkened to pass WCAG AA (4.54:1 on --bg) */
   --line: #d9d9d9;
-  --accent: #8a8a8a;
+  --accent: #8a8a8a;   /* SVG / slider only — not used as text color */
   --accent-ink: #ffffff;
 
   --font: "Redaction 1", ui-monospace, "SF Mono", "Cascadia Mono", Consolas,
@@ -59,6 +59,50 @@
   --text-4: 55px;
   --text-5: 89px;
   --text-6: 144px;
+
+  /* ── Answer-state colors (both pass WCAG AA ≥ 4.5:1 on --bg #ffffff) ── */
+  --correct:           #1e5c1e;   /* 7.3:1  */
+  --correct-bg:        #f5faf5;
+  --incorrect:         #7a1f1f;   /* 10.1:1 */
+  --incorrect-bg:      #faf5f5;
+
+  /* ── Button component ───────────────────────────────────────────────── */
+  --btn-bg:            var(--ink);
+  --btn-fg:            var(--bg);
+  --btn-bg-hover:      var(--mist);
+  --btn-radius:        var(--space-3);   /* 3px */
+  --btn-pd-y:          var(--space-6);   /* 13px */
+  --btn-pd-x:          var(--space-7);   /* 21px */
+  --btn-font-size:     var(--text-1);    /* 13px */
+
+  /* Ghost / outline variant */
+  --btn-ghost-bg:        transparent;
+  --btn-ghost-fg:        var(--ink);
+  --btn-ghost-border:    var(--line);
+  --btn-ghost-bg-hover:  var(--panel);
+
+  /* ── Answer-choice row ──────────────────────────────────────────────── */
+  --choice-bg:               var(--bg);
+  --choice-bg-hover:         var(--panel);
+  --choice-border:           var(--line);
+  --choice-radius:           var(--space-3);   /* 3px */
+  --choice-pd-y:             var(--space-6);   /* 13px */
+  --choice-pd-x:             var(--space-7);   /* 21px */
+  --choice-selected-bg:      var(--ink);
+  --choice-selected-fg:      var(--bg);
+  --choice-correct-bg:       var(--correct-bg);
+  --choice-correct-border:   var(--correct);
+  --choice-correct-fg:       var(--correct);
+  --choice-incorrect-bg:     var(--incorrect-bg);
+  --choice-incorrect-border: var(--incorrect);
+  --choice-incorrect-fg:     var(--incorrect);
+
+  /* ── Question block ─────────────────────────────────────────────────── */
+  --q-bg:     var(--bg);
+  --q-border: var(--line);
+  --q-radius: var(--space-3);   /* 3px */
+  --q-pd:     var(--space-7);   /* 21px */
+  --q-gap:    var(--space-6);   /* 13px */
 }
 
 * {
@@ -80,4 +124,77 @@ body {
 
 a {
   color: inherit;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Shared component classes — built on the token layer above.
+   Apply to quiz, practice, and any future interactive element.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Primary button ─────────────────────────────────────────────────────────── */
+.site-btn {
+  display: inline-block;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: none;
+  border-radius: var(--btn-radius);
+  padding: var(--btn-pd-y) var(--btn-pd-x);
+  font-family: var(--font);
+  font-size: var(--btn-font-size);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+}
+.site-btn:hover { background: var(--btn-bg-hover); }
+
+/* Ghost / outline variant */
+.site-btn.ghost {
+  background: var(--btn-ghost-bg);
+  color: var(--btn-ghost-fg);
+  border: 1px solid var(--btn-ghost-border);
+}
+.site-btn.ghost:hover { background: var(--btn-ghost-bg-hover); }
+
+/* Answer-choice row ──────────────────────────────────────────────────────── */
+.answer-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-6);
+  padding: var(--choice-pd-y) var(--choice-pd-x);
+  border: 1px solid var(--choice-border);
+  border-radius: var(--choice-radius);
+  background: var(--choice-bg);
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: var(--text-1);
+  color: var(--ink);
+  text-align: left;
+  width: 100%;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+@media (prefers-reduced-motion: reduce) { .answer-choice { transition: none; } }
+.answer-choice:hover                  { background: var(--choice-bg-hover); }
+.answer-choice.is-selected            { background: var(--choice-selected-bg); color: var(--choice-selected-fg); border-color: var(--choice-selected-bg); }
+.answer-choice.is-correct             { background: var(--choice-correct-bg); color: var(--choice-correct-fg); border-color: var(--choice-correct-border); }
+.answer-choice.is-incorrect           { background: var(--choice-incorrect-bg); color: var(--choice-incorrect-fg); border-color: var(--choice-incorrect-border); }
+
+/* Stacked list of answer choices */
+.choice-list {
+  list-style: none;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Question / problem container ───────────────────────────────────────────── */
+.question-block {
+  border: 1px solid var(--q-border);
+  border-radius: var(--q-radius);
+  padding: var(--q-pd);
+  display: flex;
+  flex-direction: column;
+  gap: var(--q-gap);
 }
