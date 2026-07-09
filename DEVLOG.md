@@ -1,5 +1,13 @@
 # Devlog
 
+## 2026-07-08
+
+Converted both index pages to a capped two-column card grid. `DomainIndex.jsx` (the per-domain list, e.g. `/advanced-math`) and `ExplainerIndex.jsx` (the top-level `/explainers` list) now use `display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--space-7)` (21 px). The container max-width stays at 720 px (unchanged), and the column-gap uses the existing Fibonacci `--space-7` variable rather than a new raw value. Collapses to a single column at 640 px. No card styling was touched — borders, hover state, typography, and link behavior are identical.
+
+Also removed the three live placeholder strings in `ExplainerIndex.jsx`: the kicker replaced with "SAT Math" (matches domain-page kicker), the title replaced with "Concepts", and the dek paragraph deleted entirely (not obvious from context what it should say).
+
+
+
 ## 2026-06-24
 
 Built the first page of the math explainers site: an interactive lesson on the discriminant of a quadratic. You drag three sliders (a, b, c) and watch a graph of the parabola update live, with dots marking where it crosses the x-axis. The dots split into two, merge into one, or disappear as the math changes, and the page tells you in plain terms how many real solutions there are. There's also a "fresh problem" button that picks new random numbers instantly (no internet needed), and a special case for when a is 0, since then it's just a line and the rule doesn't apply.

@@ -10,7 +10,8 @@ export default function ExplainerIndex() {
         .ix-kicker { font-size: 12px; letter-spacing: 3px; color: var(--mist); font-weight: 700; margin: 0 0 10px; text-transform: uppercase; }
         .ix-title { font-size: 40px; line-height: 1.05; margin: 0 0 12px; font-weight: 700; }
         .ix-dek { font-size: 16px; color: var(--mist); margin: 0 0 32px; line-height: 1.45; }
-        .ix-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+        .ix-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--space-7); }
+        @media (max-width: 640px) { .ix-list { grid-template-columns: 1fr; column-gap: 0; } }
         .ix-item { border-bottom: 1px solid var(--line); }
         .ix-link { display: block; padding: 18px 4px; text-decoration: none; color: var(--ink); }
         .ix-link:hover { background: var(--panel); }
@@ -18,9 +19,8 @@ export default function ExplainerIndex() {
         .ix-desc { font-size: 14px; color: var(--mist); margin: 0; }
       `}</style>
       <div className="ix">
-        <p className="ix-kicker">[SERIES LABEL]</p>
-        <h1 className="ix-title">[Series title]</h1>
-        <p className="ix-dek">[one-line description of the series]</p>
+        <p className="ix-kicker">SAT Math</p>
+        <h1 className="ix-title">Concepts</h1>
 
         <ul className="ix-list">
           {domains.map((d) => (

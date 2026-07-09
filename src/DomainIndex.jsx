@@ -14,7 +14,8 @@ export default function DomainIndex({ domainSlug }) {
         .dm-back:hover { color: var(--ink); }
         .dm-kicker { font-size: 12px; letter-spacing: 3px; color: var(--mist); font-weight: 700; margin: 0 0 10px; text-transform: uppercase; }
         .dm-title { font-size: 40px; line-height: 1.05; margin: 0 0 32px; font-weight: 700; }
-        .dm-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+        .dm-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--space-7); }
+        @media (max-width: 640px) { .dm-list { grid-template-columns: 1fr; column-gap: 0; } }
         .dm-item { border-bottom: 1px solid var(--line); }
         .dm-link { display: block; padding: 18px 4px; text-decoration: none; color: var(--ink); }
         .dm-link:hover { background: var(--panel); }
