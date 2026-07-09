@@ -1,139 +1,146 @@
-/* Redaction 1 — the lightly-degraded ("grade 10") cut. Self-hosted, see
-   /public/fonts and Redaction-OFL.txt. Falls back to system monospace if the
-   font fails to load. */
+/* ── Fonts ──────────────────────────────────────────────────────────────────
+   Inter is loaded via Google Fonts in index.html.
+   Redaction kept for the hero title only (dark cinematic surface).
+   ─────────────────────────────────────────────────────────────────────────── */
 @font-face {
   font-family: "Redaction 1";
   src: url("/fonts/Redaction_10-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: "Redaction 1";
   src: url("/fonts/Redaction_10-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Redaction 1";
-  src: url("/fonts/Redaction_10-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
+  font-weight: 700; font-style: normal; font-display: swap;
 }
 
+/* ── Design tokens ──────────────────────────────────────────────────────────
+   Every value on the site resolves to a token.
+   No scattered magic numbers anywhere.
+   ─────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* Monochrome palette. --accent is the single hook for future color —
-     change this one value and the accent propagates everywhere. */
-  --bg: #ffffff;
-  --panel: #fafafa;
-  --ink: #111111;
-  --mist: #5c5c5c;
-  --faint: #767676;    /* was #9a9a9a — darkened to pass WCAG AA (4.54:1 on --bg) */
-  --line: #d9d9d9;
-  --accent: #8a8a8a;   /* SVG / slider only — not used as text color */
-  --accent-ink: #ffffff;
+  /* ── Color — surfaces ─────────────────────────────────────────────── */
+  --bg:        #ffffff;
+  --surface:   #f7f7f6;    /* panels, code, inputs */
+  --surface-2: #efeeec;    /* hover on surface */
 
-  --font: "Redaction 1", ui-monospace, "SF Mono", "Cascadia Mono", Consolas,
-    "Courier New", monospace;
+  /* ── Color — text ─────────────────────────────────────────────────── */
+  --ink:    #0d0d0d;        /* primary — headings, body */
+  --mist:   #5a5a58;        /* secondary — descriptions  6.9:1 on --bg */
+  --faint:  #767674;        /* tertiary — meta, labels   4.5:1 on --bg */
 
-  /* Fibonacci scale — every margin/padding/gap in the site should resolve to
-     one of these, so spacing never drifts off-scale. */
-  --space-1: 1px;
-  --space-2: 2px;
-  --space-3: 3px;
-  --space-4: 5px;
-  --space-5: 8px;
-  --space-6: 13px;
-  --space-7: 21px;
-  --space-8: 34px;
-  --space-9: 55px;
-  --space-10: 89px;
-  --space-11: 144px;
-  --space-12: 233px;
+  /* ── Color — borders ──────────────────────────────────────────────── */
+  --line:   #e5e5e3;        /* hairline dividers */
+  --line-2: #d0cfcc;        /* stronger panel borders */
 
-  --text-1: 13px;
-  --text-2: 21px;
-  --text-3: 34px;
-  --text-4: 55px;
-  --text-5: 89px;
-  --text-6: 144px;
+  /* ── Color — accent (ONE chromatic color) ─────────────────────────── */
+  --accent:        #5e6ad2; /* Linear blurple — 4.7:1 on --bg */
+  --accent-ink:    #ffffff;
+  --accent-subtle: rgba(94, 106, 210, 0.08);
+  --accent-border: rgba(94, 106, 210, 0.4);
 
-  /* ── Answer-state colors (both pass WCAG AA ≥ 4.5:1 on --bg #ffffff) ── */
-  --correct:           #1e5c1e;   /* 7.3:1  */
-  --correct-bg:        #f5faf5;
-  --incorrect:         #7a1f1f;   /* 10.1:1 */
-  --incorrect-bg:      #faf5f5;
+  /* ── Color — semantic ─────────────────────────────────────────────── */
+  --correct:      #15803d;  /* 5.0:1 on --bg */
+  --correct-bg:   #f0fdf4;
+  --incorrect:    #b91c1c;  /* 6.5:1 on --bg */
+  --incorrect-bg: #fef2f2;
 
-  /* ── Button component ───────────────────────────────────────────────── */
-  --btn-bg:            var(--ink);
-  --btn-fg:            var(--bg);
-  --btn-bg-hover:      var(--mist);
-  --btn-radius:        var(--space-3);   /* 3px */
-  --btn-pd-y:          var(--space-6);   /* 13px */
-  --btn-pd-x:          var(--space-7);   /* 21px */
-  --btn-font-size:     var(--text-1);    /* 13px */
+  /* ── Typography ───────────────────────────────────────────────────── */
+  --font:      "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
 
-  /* Ghost / outline variant */
-  --btn-ghost-bg:        transparent;
-  --btn-ghost-fg:        var(--ink);
-  --btn-ghost-border:    var(--line);
-  --btn-ghost-bg-hover:  var(--panel);
+  /* Type scale — real contrast between levels */
+  --text-1: 13px;   /* captions, footnotes, labels */
+  --text-2: 15px;   /* body */
+  --text-3: 22px;   /* section headings */
+  --text-4: 32px;   /* page titles (index) */
+  --text-5: 44px;   /* concept page h1 */
 
-  /* ── Answer-choice row ──────────────────────────────────────────────── */
-  --choice-bg:               var(--bg);
-  --choice-bg-hover:         var(--panel);
-  --choice-border:           var(--line);
-  --choice-radius:           var(--space-3);   /* 3px */
-  --choice-pd-y:             var(--space-6);   /* 13px */
-  --choice-pd-x:             var(--space-7);   /* 21px */
-  --choice-selected-bg:      var(--ink);
-  --choice-selected-fg:      var(--bg);
-  --choice-correct-bg:       var(--correct-bg);
-  --choice-correct-border:   var(--correct);
-  --choice-correct-fg:       var(--correct);
-  --choice-incorrect-bg:     var(--incorrect-bg);
+  /* ── Spacing — 8pt grid ───────────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-7:  32px;
+  --space-8:  40px;
+  --space-9:  48px;
+  --space-10: 64px;
+  --space-11: 80px;
+  --space-12: 120px;
+
+  /* ── Radii ────────────────────────────────────────────────────────── */
+  --r-sm: 4px;
+  --r-md: 6px;
+
+  /* ── Component: button ────────────────────────────────────────────── */
+  --btn-bg:         var(--ink);
+  --btn-fg:         #ffffff;
+  --btn-bg-hover:   #2a2a28;
+  --btn-radius:     var(--r-sm);
+  --btn-pd-y:       9px;
+  --btn-pd-x:       16px;
+  --btn-font-size:  var(--text-1);
+  --btn-ghost-bg:       transparent;
+  --btn-ghost-fg:       var(--ink);
+  --btn-ghost-border:   var(--line-2);
+  --btn-ghost-bg-hover: var(--surface);
+
+  /* ── Component: answer choice ─────────────────────────────────────── */
+  --choice-bg:             var(--bg);
+  --choice-bg-hover:       var(--surface);
+  --choice-border:         var(--line);
+  --choice-radius:         var(--r-sm);
+  --choice-pd-y:           12px;
+  --choice-pd-x:           16px;
+  --choice-selected-bg:    var(--ink);
+  --choice-selected-fg:    #ffffff;
+  --choice-correct-bg:     var(--correct-bg);
+  --choice-correct-border: var(--correct);
+  --choice-correct-fg:     var(--correct);
+  --choice-incorrect-bg:   var(--incorrect-bg);
   --choice-incorrect-border: var(--incorrect);
-  --choice-incorrect-fg:     var(--incorrect);
+  --choice-incorrect-fg:   var(--incorrect);
 
-  /* ── Question block ─────────────────────────────────────────────────── */
+  /* ── Component: question block ────────────────────────────────────── */
   --q-bg:     var(--bg);
   --q-border: var(--line);
-  --q-radius: var(--space-3);   /* 3px */
-  --q-pd:     var(--space-7);   /* 21px */
-  --q-gap:    var(--space-6);   /* 13px */
+  --q-radius: var(--r-md);
+  --q-pd:     var(--space-6);
+  --q-gap:    var(--space-3);
 }
 
-* {
-  box-sizing: border-box;
-}
+/* ── Reset ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
-html,
-body,
-#root {
-  margin: 0;
-  min-height: 100%;
-}
+html, body, #root { margin: 0; min-height: 100%; }
 
 body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  color: inherit;
+a { color: inherit; }
+
+/* ── Focus ring — replaces browser default ────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   Shared component classes — built on the token layer above.
-   Apply to quiz, practice, and any future interactive element.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════════════════════
+   GLOBAL COMPONENTS
+   ══════════════════════════════════════════════════════════════════════════ */
 
-/* Primary button ─────────────────────────────────────────────────────────── */
+/* Primary button */
 .site-btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   background: var(--btn-bg);
   color: var(--btn-fg);
   border: none;
@@ -141,26 +148,27 @@ a {
   padding: var(--btn-pd-y) var(--btn-pd-x);
   font-family: var(--font);
   font-size: var(--btn-font-size);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
+  letter-spacing: 0.01em;
   cursor: pointer;
   text-decoration: none;
+  transition: background 0.1s;
 }
 .site-btn:hover { background: var(--btn-bg-hover); }
-
-/* Ghost / outline variant */
 .site-btn.ghost {
   background: var(--btn-ghost-bg);
   color: var(--btn-ghost-fg);
   border: 1px solid var(--btn-ghost-border);
 }
 .site-btn.ghost:hover { background: var(--btn-ghost-bg-hover); }
+@media (prefers-reduced-motion: reduce) { .site-btn { transition: none; } }
 
-/* Answer-choice row ──────────────────────────────────────────────────────── */
+/* Answer choice */
 .answer-choice {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-6);
+  gap: var(--space-3);
   padding: var(--choice-pd-y) var(--choice-pd-x);
   border: 1px solid var(--choice-border);
   border-radius: var(--choice-radius);
@@ -171,25 +179,23 @@ a {
   color: var(--ink);
   text-align: left;
   width: 100%;
-  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  transition: background 0.1s, border-color 0.1s;
 }
 @media (prefers-reduced-motion: reduce) { .answer-choice { transition: none; } }
-.answer-choice:hover                  { background: var(--choice-bg-hover); }
-.answer-choice.is-selected            { background: var(--choice-selected-bg); color: var(--choice-selected-fg); border-color: var(--choice-selected-bg); }
-.answer-choice.is-correct             { background: var(--choice-correct-bg); color: var(--choice-correct-fg); border-color: var(--choice-correct-border); }
-.answer-choice.is-incorrect           { background: var(--choice-incorrect-bg); color: var(--choice-incorrect-fg); border-color: var(--choice-incorrect-border); }
+.answer-choice:hover        { background: var(--choice-bg-hover); }
+.answer-choice.is-selected  { background: var(--choice-selected-bg); color: var(--choice-selected-fg); border-color: var(--choice-selected-bg); }
+.answer-choice.is-correct   { background: var(--choice-correct-bg); color: var(--choice-correct-fg); border-color: var(--choice-correct-border); }
+.answer-choice.is-incorrect { background: var(--choice-incorrect-bg); color: var(--choice-incorrect-fg); border-color: var(--choice-incorrect-border); }
 
-/* Stacked list of answer choices */
 .choice-list {
   list-style: none;
-  margin: var(--space-6) 0 0;
+  margin: var(--space-3) 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-2);
 }
 
-/* Question / problem container ───────────────────────────────────────────── */
 .question-block {
   border: 1px solid var(--q-border);
   border-radius: var(--q-radius);
@@ -197,4 +203,630 @@ a {
   display: flex;
   flex-direction: column;
   gap: var(--q-gap);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   INDEX PAGES  (.ix-* = ExplainerIndex,  .dm-* = DomainIndex)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.ix-page, .dm-page {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.ix, .dm {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-6) var(--space-12);
+}
+@media (max-width: 640px) {
+  .ix, .dm { padding: var(--space-7) var(--space-5) var(--space-10); }
+}
+
+/* Back link */
+.ix-back, .dm-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--text-1);
+  font-weight: 500;
+  color: var(--faint);
+  text-decoration: none;
+  margin-bottom: var(--space-9);
+  letter-spacing: 0.01em;
+  transition: color 0.1s;
+}
+.ix-back:hover, .dm-back:hover { color: var(--ink); }
+
+/* Kicker */
+.ix-kicker, .dm-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 var(--space-2);
+}
+
+/* Page title */
+.ix-title {
+  font-size: clamp(28px, 5vw, var(--text-4));
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin: 0 0 var(--space-10);
+}
+
+.dm-title {
+  font-size: clamp(28px, 5vw, var(--text-4));
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin: 0 0 var(--space-7);
+}
+
+/* List */
+.ix-list, .dm-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.ix-item, .dm-item { border-bottom: 1px solid var(--line); }
+
+.ix-link, .dm-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5) 0;
+  text-decoration: none;
+  color: var(--ink);
+  border-radius: var(--r-sm);
+  transition: background 0.1s;
+}
+.ix-link:hover, .dm-link:hover { background: transparent; }
+
+.ix-info, .dm-info { flex: 1; min-width: 0; }
+
+.ix-name, .dm-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 3px;
+  transition: color 0.1s;
+}
+.ix-link:hover .ix-name,
+.dm-link:hover .dm-name { color: var(--accent); }
+
+.ix-desc, .dm-desc {
+  font-size: var(--text-1);
+  color: var(--mist);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.ix-arrow, .dm-arrow {
+  font-size: 15px;
+  color: var(--faint);
+  flex-shrink: 0;
+  transition: transform 0.15s, color 0.1s;
+}
+.ix-link:hover .ix-arrow,
+.dm-link:hover .dm-arrow {
+  transform: translateX(3px);
+  color: var(--accent);
+}
+
+.dm-empty {
+  font-size: var(--text-1);
+  color: var(--faint);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--line);
+  list-style: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-back, .dm-back,
+  .ix-name, .dm-name,
+  .ix-arrow, .dm-arrow { transition: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   CONCEPT PAGES  (.dx-* — shared by all 7 concept pages)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.dx-page {
+  background: var(--bg);
+  min-height: 100vh;
+  padding: var(--space-7) var(--space-5);
+}
+
+.dx {
+  font-family: var(--font);
+  color: var(--ink);
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Back link */
+.dx-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--text-1);
+  font-weight: 500;
+  color: var(--faint);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  margin-bottom: var(--space-4);
+  transition: color 0.1s;
+}
+.dx-back:hover { color: var(--ink); }
+
+/* Hero grid */
+.dx-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-9);
+  align-items: start;
+  margin-top: var(--space-4);
+}
+@media (max-width: 720px) {
+  .dx-grid { grid-template-columns: 1fr; gap: var(--space-7); }
+}
+
+/* Metadata labels */
+.dx-domain {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  font-weight: 500;
+  margin: 0 0 var(--space-1);
+  text-transform: uppercase;
+}
+
+.dx-kicker {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  font-weight: 600;
+  margin: 0 0 var(--space-2);
+  text-transform: uppercase;
+}
+
+/* Concept title (motion.h1, shared-element target) */
+.dx-title {
+  font-size: clamp(30px, 4.5vw, var(--text-5));
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 750;
+  margin: 0 0 var(--space-3);
+  color: var(--ink);
+}
+
+.dx-dek {
+  font-size: 15px;
+  color: var(--mist);
+  margin: 0 0 var(--space-6);
+  line-height: 1.65;
+  max-width: 50ch;
+}
+
+/* Section label (uppercase metadata) */
+.dx-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  font-weight: 600;
+  margin: var(--space-6) 0 var(--space-2);
+  text-transform: uppercase;
+}
+
+/* Math display */
+.dx-eq {
+  font-size: 21px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.dx-disc {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.dx-formula {
+  font-size: 26px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-1) 0;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+  flex-wrap: wrap;
+}
+
+.dx-formula-sub {
+  font-size: var(--text-1);
+  color: var(--mist);
+  margin: 3px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.dx-formula-value {
+  font-size: 19px;
+  font-weight: 700;
+  margin: var(--space-3) 0 0;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.dx-formula-note {
+  font-size: var(--text-1);
+  color: var(--mist);
+  margin: 3px 0 0;
+  line-height: 1.5;
+}
+
+/* Inline fraction (Vieta's, CompletingTheSquare) */
+.dx-frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 1.2;
+}
+.dx-frac-num { padding: 0 4px 2px; }
+.dx-frac-den { padding: 2px 4px 0; border-top: 1.5px solid currentColor; }
+
+/* Status pill */
+.dx-pill {
+  display: inline-block;
+  padding: 7px 13px;
+  border-radius: var(--r-sm);
+  font-size: var(--text-1);
+  font-weight: 600;
+  margin-top: var(--space-2);
+  background: var(--ink);
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+/* Dim/active rules */
+.dx-rule {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 3px 0;
+  line-height: 1.35;
+  font-variant-numeric: tabular-nums;
+  color: var(--line-2);
+  transition: color 0.15s;
+}
+.dx-rule.is-active { color: var(--ink); }
+
+/* End-behavior (Polynomials) */
+.dx-eb {
+  font-size: 19px;
+  font-weight: 700;
+  margin: 3px 0;
+  color: var(--line-2);
+  transition: color 0.15s;
+}
+.dx-eb.is-active { color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dx-rule, .dx-eb { transition: none; }
+}
+
+/* Interactive panel (grapher, worked-example wrapper) */
+.dx-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: var(--space-5);
+}
+
+/* Sliders */
+.dx-slider {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 20px;
+  cursor: pointer;
+}
+
+.dx-srow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 6px 0;
+}
+
+.dx-svar {
+  font-size: 15px;
+  width: 16px;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--mist);
+  flex-shrink: 0;
+}
+
+.dx-sval {
+  font-variant-numeric: tabular-nums;
+  width: 36px;
+  text-align: right;
+  font-size: var(--text-1);
+  font-weight: 700;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+/* Inline action button */
+.dx-btn {
+  display: inline-flex;
+  align-items: center;
+  background: var(--ink);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 9px 16px;
+  font-size: var(--text-1);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  margin-top: var(--space-5);
+  letter-spacing: 0.01em;
+  transition: background 0.1s;
+}
+.dx-btn:hover { background: var(--btn-bg-hover); }
+@media (prefers-reduced-motion: reduce) { .dx-btn { transition: none; } }
+
+/* Footnote / hint */
+.dx-note {
+  font-size: 12px;
+  color: var(--faint);
+  margin: var(--space-2) 0 0;
+  line-height: 1.5;
+}
+
+/* Checkbox (FunctionTransformations) */
+.dx-check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 6px 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--font);
+  user-select: none;
+}
+.dx-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Toggle button (Polynomials) */
+.dx-toggle {
+  padding: 8px 14px;
+  font-family: var(--font);
+  font-size: var(--text-1);
+  cursor: pointer;
+  background: var(--ink);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--r-sm);
+  margin-top: var(--space-3);
+  font-weight: 600;
+  width: 100%;
+  text-align: left;
+  letter-spacing: 0.01em;
+  transition: background 0.1s;
+}
+.dx-toggle:hover { background: var(--btn-bg-hover); }
+@media (prefers-reduced-motion: reduce) { .dx-toggle { transition: none; } }
+
+/* Roots list (Polynomials) */
+.dx-root-list { margin: var(--space-3) 0 0; }
+.dx-root-item {
+  font-size: 14px;
+  margin: 4px 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.dx-root-coord { font-weight: 600; min-width: 52px; }
+.dx-root-mult  { font-size: 12px; color: var(--mist); }
+.dx-root-bx {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--ink);
+  color: #ffffff;
+  letter-spacing: 0.05em;
+}
+
+/* Transformation table (FunctionTransformations) */
+.dx-tgroups {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-7);
+}
+@media (max-width: 720px) {
+  .dx-tgroups { grid-template-columns: 1fr; gap: var(--space-5); }
+}
+.dx-tgroup-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 var(--space-3);
+}
+.dx-trow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin: var(--space-2) 0;
+  font-size: 14px;
+}
+.dx-trow-form {
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 110px;
+  font-variant-numeric: tabular-nums;
+}
+.dx-trow-desc { color: var(--mist); }
+
+/* Step labels (CompletingTheSquare, ExponentialFunctions, QLS) */
+.dx-step-num {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: var(--space-5) 0 var(--space-1);
+}
+.dx-step-note {
+  font-size: var(--text-1);
+  color: var(--mist);
+  margin: 3px 0 0;
+  line-height: 1.55;
+}
+
+/* Cross-reference link (QuadraticLinearSystems) */
+.dx-disc-link {
+  font-size: var(--text-1);
+  color: var(--mist);
+  margin: var(--space-4) 0 0;
+  line-height: 1.55;
+}
+.dx-disc-link a {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+.dx-disc-link a:hover { text-decoration: underline; }
+
+/* ── Sections below the hero grid ──────────────────────────────────── */
+.dx-section {
+  margin-top: var(--space-10);
+  padding-top: var(--space-7);
+  border-top: 1px solid var(--line);
+}
+
+.dx-section-title {
+  font-size: var(--text-3);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--space-2);
+  color: var(--ink);
+}
+
+.dx-section-intro {
+  font-size: 15px;
+  color: var(--mist);
+  margin: 0 0 var(--space-7);
+  line-height: 1.65;
+  max-width: 62ch;
+}
+
+/* Disguise cards */
+.dx-disguises {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-5);
+}
+
+.dx-disguise {
+  border-left: 2px solid var(--line-2);
+  padding: 0 0 0 var(--space-4);
+}
+
+.dx-disguise-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 var(--space-2);
+}
+
+.dx-disguise-q {
+  font-size: 14px;
+  font-style: italic;
+  margin: 0 0 var(--space-2);
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.dx-disguise-tell {
+  font-size: 13px;
+  color: var(--mist);
+  margin: 0 0 var(--space-2);
+  line-height: 1.55;
+}
+.dx-disguise-tell b { font-weight: 600; color: var(--ink); }
+
+.dx-disguise-map {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--faint);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Example problem */
+.dx-example-problem {
+  font-size: 15px;
+  margin: 0 0 var(--space-3);
+  line-height: 1.55;
+}
+
+.dx-example-line {
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  margin: 4px 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.dx-example-link {
+  font-size: var(--text-1);
+  color: var(--mist);
+  margin: var(--space-4) 0 0;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+/* Video embed */
+.dx-video-wrap {
+  aspect-ratio: 2160 / 1322;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  margin-top: var(--space-6);
+  max-width: 680px;
+}
+.dx-video-frame {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  background: var(--ink);
+  object-fit: contain;
 }

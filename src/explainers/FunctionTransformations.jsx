@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { ease, duration } from "../motion.js";
+import { ease, duration, nav } from "../motion.js";
 import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -22,6 +22,7 @@ const sx = (x) => ((x + XR) / (2 * XR)) * W;
 const sy = (y) => ((YR - y) / (2 * YR)) * H;
 
 export default function FunctionTransformations() {
+  const slug = useLocation().pathname.split("/").pop();
   // h > 0 → f(x − h) → shifts RIGHT (sign flip is the lesson)
   const [h, setH] = useState(3);
   const [k, setK] = useState(2);
@@ -77,56 +78,6 @@ export default function FunctionTransformations() {
 
   return (
     <div className="dx-page">
-      <style>{`
-        .dx-page   { background: var(--bg); min-height: 100vh; padding: 32px 20px; }
-        .dx        { font-family: var(--font); color: var(--ink); max-width: 920px; margin: 0 auto; }
-        .dx-back   { font-size: 12px; color: var(--mist); text-decoration: none; }
-        .dx-back:hover { color: var(--ink); }
-        .dx-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 18px; }
-        @media (max-width: 720px) { .dx-grid { grid-template-columns: 1fr; gap: 28px; } }
-        .dx-kicker { font-size: 12px; letter-spacing: 3px; color: var(--mist); font-weight: 700; margin: 0 0 10px; text-transform: uppercase; }
-        .dx-title  { font-size: 44px; line-height: 1.05; margin: 0 0 12px; font-weight: 700; }
-        .dx-dek    { font-size: 16px; color: var(--mist); margin: 0 0 28px; line-height: 1.45; }
-        .dx-label  { font-size: 11px; letter-spacing: 2.5px; color: var(--faint); font-weight: 700; margin: 22px 0 8px; text-transform: uppercase; }
-        .dx-eq     { font-size: 20px; font-variant-numeric: tabular-nums; }
-        .dx-formula       { font-size: 36px; font-weight: 700; margin: 6px 0; line-height: 1.15; font-variant-numeric: tabular-nums; }
-        .dx-formula-value { font-size: 18px; font-weight: 700; margin: 6px 0; font-variant-numeric: tabular-nums; color: var(--ink); }
-        .dx-formula-note  { font-size: 13px; color: var(--mist); margin: 4px 0 0; }
-        .dx-pill   { display: inline-block; padding: 9px 18px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-top: 6px; background: var(--ink); color: var(--bg); }
-        .dx-panel  { background: var(--panel); border: 1.5px solid var(--line); border-radius: 4px; padding: 18px; }
-        .dx-slider { width: 100%; accent-color: var(--accent); height: 22px; }
-        .dx-srow   { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
-        .dx-svar   { font-size: 18px; width: 18px; font-style: italic; }
-        .dx-sval   { font-variant-numeric: tabular-nums; width: 34px; text-align: right; font-size: 15px; font-weight: 700; }
-        .dx-check  { display: flex; align-items: center; gap: 10px; margin: 10px 0; cursor: pointer; font-size: 15px; font-family: var(--font); }
-        .dx-check input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
-        .dx-note   { font-size: 12px; color: var(--faint); margin: 10px 0 0; }
-
-        .dx-rule   { font-size: 20px; font-weight: 700; margin: 6px 0; line-height: 1.3; color: var(--ink); }
-        .dx-rule-dim { font-size: 20px; font-weight: 700; margin: 6px 0; line-height: 1.3; color: var(--faint); }
-
-        .dx-section       { margin-top: 56px; padding-top: 32px; border-top: 1.5px solid var(--line); }
-        .dx-section-title { font-size: 26px; font-weight: 700; margin: 0 0 10px; }
-        .dx-section-intro { font-size: 15px; color: var(--mist); margin: 0 0 28px; line-height: 1.5; max-width: 680px; }
-        .dx-tgroups       { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-        @media (max-width: 720px) { .dx-tgroups { grid-template-columns: 1fr; } }
-        .dx-tgroup        { }
-        .dx-tgroup-label  { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--mist); margin: 0 0 14px; }
-        .dx-trow          { display: flex; align-items: baseline; gap: 12px; margin: 10px 0; font-size: 15px; }
-        .dx-trow-form     { font-size: 18px; font-weight: 700; min-width: 120px; }
-        .dx-trow-desc     { color: var(--mist); }
-        .dx-disguises     { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        @media (max-width: 880px) { .dx-disguises { grid-template-columns: 1fr; } }
-        .dx-disguise      { border-left: 3px solid var(--ink); padding: 2px 0 2px 16px; }
-        .dx-disguise-name { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mist); margin: 0 0 10px; }
-        .dx-disguise-q    { font-size: 15px; font-style: italic; margin: 0 0 10px; line-height: 1.4; }
-        .dx-disguise-tell { font-size: 13.5px; color: var(--ink); margin: 0 0 10px; line-height: 1.45; }
-        .dx-disguise-tell b { font-weight: 700; }
-        .dx-disguise-map  { font-size: 13.5px; color: var(--faint); font-weight: 700; margin: 0; }
-        .dx-example-problem { font-size: 16px; margin: 0 0 14px; line-height: 1.4; }
-        .dx-example-line  { font-size: 17px; font-variant-numeric: tabular-nums; margin: 6px 0; font-weight: 700; }
-        .dx-example-link  { font-size: 14px; color: var(--mist); margin: 16px 0 0; font-style: italic; line-height: 1.45; }
-      `}</style>
 
       <div className="dx">
         <Link className="dx-back" to="/advanced-math">
@@ -137,7 +88,13 @@ export default function FunctionTransformations() {
           {/* LEFT — the concept */}
           <div>
             <p className="dx-kicker">Advanced Math · Functions</p>
-            <h1 className="dx-title">Function Transformations</h1>
+            <motion.h1
+              className="dx-title"
+              layoutId={`concept-title-${slug}`}
+              transition={{ layout: { duration: nav.layoutDur, ease: nav.easeOut } }}
+            >
+              Function Transformations
+            </motion.h1>
             <p className="dx-dek">[dek placeholder]</p>
 
             <p className="dx-label">BASE FUNCTION (fixed)</p>
@@ -228,7 +185,7 @@ export default function FunctionTransformations() {
         </div>
 
         {/* ── Core Rules ───────────────────────────────────────────────────── */}
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={0}>
           <h2 className="dx-section-title">The Six Transformations</h2>
           <p className="dx-section-intro">
             Every transformation is either outside the function (vertical, intuitive) or inside it (horizontal, counterintuitive). That single distinction resolves almost every transformation question on the SAT.
@@ -278,7 +235,7 @@ export default function FunctionTransformations() {
         </RevealSection>
 
         {/* ── How it shows up on the SAT ───────────────────────────────────── */}
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={1}>
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT tests two transformation patterns: translating a description to an equation, and evaluating a transformed function from a table or graph.

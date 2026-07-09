@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { ease, duration } from "../motion.js";
+import { ease, duration, nav } from "../motion.js";
 import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -21,6 +21,7 @@ const sx = (x) => ((x + XR) / (2 * XR)) * W;
 const sy = (y) => ((YR - y) / (2 * YR)) * H;
 
 export default function Polynomials() {
+  const slug = useLocation().pathname.split("/").pop();
   const [f1, setF1] = useState(true);   // (x + 2) — root at -2, mult 1
   const [f2, setF2] = useState(true);   // (x − 1)² — root at 1, mult 2
   const [f3, setF3] = useState(true);   // (x − 3) — root at 3, mult 1
@@ -77,53 +78,6 @@ export default function Polynomials() {
 
   return (
     <div className="dx-page">
-      <style>{`
-        .dx-page   { background: var(--bg); min-height: 100vh; padding: 32px 20px; }
-        .dx        { font-family: var(--font); color: var(--ink); max-width: 920px; margin: 0 auto; }
-        .dx-back   { font-size: 12px; color: var(--mist); text-decoration: none; }
-        .dx-back:hover { color: var(--ink); }
-        .dx-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 18px; }
-        @media (max-width: 720px) { .dx-grid { grid-template-columns: 1fr; gap: 28px; } }
-        .dx-kicker { font-size: 12px; letter-spacing: 3px; color: var(--mist); font-weight: 700; margin: 0 0 10px; text-transform: uppercase; }
-        .dx-title  { font-size: 44px; line-height: 1.05; margin: 0 0 12px; font-weight: 700; }
-        .dx-dek    { font-size: 16px; color: var(--mist); margin: 0 0 28px; line-height: 1.45; }
-        .dx-label  { font-size: 11px; letter-spacing: 2.5px; color: var(--faint); font-weight: 700; margin: 22px 0 8px; text-transform: uppercase; }
-        .dx-formula       { font-size: 28px; font-weight: 700; margin: 6px 0; line-height: 1.2; font-variant-numeric: tabular-nums; word-break: break-all; }
-        .dx-formula-value { font-size: 20px; font-weight: 700; margin: 6px 0; font-variant-numeric: tabular-nums; }
-        .dx-pill   { display: inline-block; padding: 9px 18px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-top: 6px; background: var(--ink); color: var(--bg); }
-        .dx-panel  { background: var(--panel); border: 1.5px solid var(--line); border-radius: 4px; padding: 18px; }
-        .dx-check  { display: flex; align-items: center; gap: 10px; margin: 10px 0; cursor: pointer; font-size: 16px; font-family: var(--font); }
-        .dx-check input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
-        .dx-toggle { padding: 10px 16px; font-family: var(--font); font-size: 14px; cursor: pointer; background: var(--ink); color: var(--bg); border: none; border-radius: 4px; margin-top: 12px; font-weight: 700; width: 100%; text-align: left; }
-        .dx-toggle:hover { opacity: 0.8; }
-        .dx-note   { font-size: 12px; color: var(--faint); margin: 10px 0 0; }
-
-        .dx-root-list { margin: 8px 0 0; }
-        .dx-root-item { font-size: 15px; margin: 6px 0; display: flex; align-items: baseline; gap: 10px; }
-        .dx-root-coord { font-weight: 700; min-width: 50px; }
-        .dx-root-mult { font-size: 12px; color: var(--mist); }
-        .dx-root-bx   { font-size: 13px; font-weight: 700; padding: 2px 7px; border-radius: 3px; background: var(--ink); color: var(--bg); }
-
-        .dx-eb     { font-size: 22px; font-weight: 700; margin: 6px 0; color: var(--faint); transition: color 0.15s; }
-        .dx-eb.is-active { color: var(--ink); }
-
-        .dx-section       { margin-top: 56px; padding-top: 32px; border-top: 1.5px solid var(--line); }
-        .dx-section-title { font-size: 26px; font-weight: 700; margin: 0 0 10px; }
-        .dx-section-intro { font-size: 15px; color: var(--mist); margin: 0 0 28px; line-height: 1.5; max-width: 680px; }
-        .dx-disguises     { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        @media (max-width: 880px) { .dx-disguises { grid-template-columns: 1fr; } }
-        .dx-disguise      { border-left: 3px solid var(--ink); padding: 2px 0 2px 16px; }
-        .dx-disguise-name { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mist); margin: 0 0 10px; }
-        .dx-disguise-q    { font-size: 15px; font-style: italic; margin: 0 0 10px; line-height: 1.4; }
-        .dx-disguise-tell { font-size: 13.5px; color: var(--ink); margin: 0 0 10px; line-height: 1.45; }
-        .dx-disguise-tell b { font-weight: 700; }
-        .dx-disguise-map  { font-size: 13.5px; color: var(--faint); font-weight: 700; margin: 0; }
-        .dx-example-problem { font-size: 16px; margin: 0 0 14px; line-height: 1.4; }
-        .dx-example-line  { font-size: 17px; font-variant-numeric: tabular-nums; margin: 6px 0; font-weight: 700; }
-        .dx-example-link  { font-size: 14px; color: var(--mist); margin: 16px 0 0; font-style: italic; line-height: 1.45; }
-        .dx-step-num  { font-size: 11px; letter-spacing: 2px; color: var(--faint); font-weight: 700; text-transform: uppercase; margin: 20px 0 6px; }
-        .dx-step-note { font-size: 13px; color: var(--mist); margin: 4px 0 0; line-height: 1.45; }
-      `}</style>
 
       <div className="dx">
         <Link className="dx-back" to="/advanced-math">
@@ -134,7 +88,13 @@ export default function Polynomials() {
           {/* LEFT — the concept */}
           <div>
             <p className="dx-kicker">Advanced Math · Polynomials</p>
-            <h1 className="dx-title">Polynomials</h1>
+            <motion.h1
+              className="dx-title"
+              layoutId={`concept-title-${slug}`}
+              transition={{ layout: { duration: nav.layoutDur, ease: nav.easeOut } }}
+            >
+              Polynomials
+            </motion.h1>
             <p className="dx-dek">[dek placeholder]</p>
 
             <p className="dx-label">FACTORED FORM (toggle factors)</p>
@@ -252,7 +212,7 @@ export default function Polynomials() {
         </div>
 
         {/* ── Core Reading Rules ───────────────────────────────────────────── */}
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={0}>
           <h2 className="dx-section-title">Core Reading Rules</h2>
           <p className="dx-section-intro">
             A factored polynomial hides everything you need — roots, multiplicity, and end behavior — in plain sight. Here's how to read them off without expanding.
@@ -281,7 +241,7 @@ export default function Polynomials() {
         </RevealSection>
 
         {/* ── How it shows up on the SAT ───────────────────────────────────── */}
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={1}>
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT tests two polynomial patterns: matching a factored equation to a graph, and counting distinct real zeros.

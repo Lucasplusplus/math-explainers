@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { ease, duration } from "../motion.js";
+import { ease, duration, nav } from "../motion.js";
 import { AnimatedNumber } from "../AnimatedNumber.jsx";
 import { RevealSection } from "../RevealSection.jsx";
 
@@ -20,6 +20,7 @@ const sx = (x) => ((x + XR) / (2 * XR)) * W;
 const sy = (y) => ((YR - y) / (2 * YR)) * H;
 
 export default function QuadraticLinearSystems() {
+  const slug = useLocation().pathname.split("/").pop();
   // m = slope, kLine = y-intercept of the line (kLine avoids collision with
   // vertex-form k used on other pages)
   const [m, setM] = useState(2);
@@ -71,54 +72,6 @@ export default function QuadraticLinearSystems() {
 
   return (
     <div className="dx-page">
-      <style>{`
-        .dx-page   { background: var(--bg); min-height: 100vh; padding: 32px 20px; }
-        .dx        { font-family: var(--font); color: var(--ink); max-width: 920px; margin: 0 auto; }
-        .dx-back   { font-size: 12px; color: var(--mist); text-decoration: none; }
-        .dx-back:hover { color: var(--ink); }
-        .dx-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 18px; }
-        @media (max-width: 720px) { .dx-grid { grid-template-columns: 1fr; gap: 28px; } }
-        .dx-kicker { font-size: 12px; letter-spacing: 3px; color: var(--mist); font-weight: 700; margin: 0 0 10px; text-transform: uppercase; }
-        .dx-title  { font-size: 44px; line-height: 1.05; margin: 0 0 12px; font-weight: 700; }
-        .dx-dek    { font-size: 16px; color: var(--mist); margin: 0 0 28px; line-height: 1.45; }
-        .dx-label  { font-size: 11px; letter-spacing: 2.5px; color: var(--faint); font-weight: 700; margin: 22px 0 8px; text-transform: uppercase; }
-        .dx-eq     { font-size: 20px; font-variant-numeric: tabular-nums; line-height: 1.7; }
-        .dx-formula       { font-size: 36px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin: 6px 0; font-variant-numeric: tabular-nums; }
-        .dx-formula-value { font-size: 22px; font-weight: 700; margin: 8px 0 0; font-variant-numeric: tabular-nums; }
-        .dx-frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.15; }
-        .dx-frac-num { padding: 0 6px 3px; }
-        .dx-frac-den { padding: 3px 6px 0; border-top: 2px solid currentColor; }
-        .dx-pill   { display: inline-block; padding: 9px 18px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-top: 6px; background: var(--ink); color: var(--bg); }
-        .dx-panel  { background: var(--panel); border: 1.5px solid var(--line); border-radius: 4px; padding: 18px; }
-        .dx-slider { width: 100%; accent-color: var(--accent); height: 22px; }
-        .dx-srow   { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
-        .dx-svar   { font-size: 18px; width: 18px; font-style: italic; }
-        .dx-sval   { font-variant-numeric: tabular-nums; width: 34px; text-align: right; font-size: 15px; font-weight: 700; }
-        .dx-note   { font-size: 12px; color: var(--faint); margin: 10px 0 0; }
-
-        .dx-rule   { font-size: 22px; font-weight: 700; margin: 6px 0; color: var(--faint); transition: color 0.15s; }
-        .dx-rule.is-active { color: var(--ink); }
-
-        .dx-section       { margin-top: 56px; padding-top: 32px; border-top: 1.5px solid var(--line); }
-        .dx-section-title { font-size: 26px; font-weight: 700; margin: 0 0 10px; }
-        .dx-section-intro { font-size: 15px; color: var(--mist); margin: 0 0 28px; line-height: 1.5; max-width: 680px; }
-        .dx-disguises     { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        @media (max-width: 880px) { .dx-disguises { grid-template-columns: 1fr; } }
-        .dx-disguise      { border-left: 3px solid var(--ink); padding: 2px 0 2px 16px; }
-        .dx-disguise-name { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mist); margin: 0 0 10px; }
-        .dx-disguise-q    { font-size: 15px; font-style: italic; margin: 0 0 10px; line-height: 1.4; }
-        .dx-disguise-tell { font-size: 13.5px; color: var(--ink); margin: 0 0 10px; line-height: 1.45; }
-        .dx-disguise-tell b { font-weight: 700; }
-        .dx-disguise-map  { font-size: 13.5px; color: var(--faint); font-weight: 700; margin: 0; }
-        .dx-example-problem { font-size: 16px; margin: 0 0 14px; line-height: 1.4; }
-        .dx-example-line  { font-size: 17px; font-variant-numeric: tabular-nums; margin: 6px 0; font-weight: 700; }
-        .dx-example-link  { font-size: 14px; color: var(--mist); margin: 16px 0 0; font-style: italic; line-height: 1.45; }
-
-        .dx-step-num  { font-size: 11px; letter-spacing: 2px; color: var(--faint); font-weight: 700; text-transform: uppercase; margin: 20px 0 6px; }
-        .dx-step-note { font-size: 13px; color: var(--mist); margin: 4px 0 0; line-height: 1.45; }
-        .dx-disc-link { font-size: 13px; color: var(--mist); margin: 16px 0 0; line-height: 1.5; }
-        .dx-disc-link a { font-weight: 700; color: var(--ink); }
-      `}</style>
 
       <div className="dx">
         <Link className="dx-back" to="/advanced-math">
@@ -129,7 +82,13 @@ export default function QuadraticLinearSystems() {
           {/* LEFT — the concept */}
           <div>
             <p className="dx-kicker">Advanced Math · Quadratics</p>
-            <h1 className="dx-title">Quadratic-Linear Systems</h1>
+            <motion.h1
+              className="dx-title"
+              layoutId={`concept-title-${slug}`}
+              transition={{ layout: { duration: nav.layoutDur, ease: nav.easeOut } }}
+            >
+              Quadratic-Linear Systems
+            </motion.h1>
             <p className="dx-dek">[dek placeholder]</p>
 
             <p className="dx-label">THE SYSTEM (move the sliders)</p>
@@ -229,7 +188,7 @@ export default function QuadraticLinearSystems() {
         </div>
 
         {/* ── The Method ───────────────────────────────────────────────────── */}
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={0}>
           <h2 className="dx-section-title">The Method</h2>
           <p className="dx-section-intro">
             To find where a line meets a parabola, substitute the line into the parabola equation so both y's cancel. What remains is a single quadratic in x — solve it the usual way.
@@ -268,7 +227,7 @@ export default function QuadraticLinearSystems() {
         </RevealSection>
 
         {/* ── Discriminant Connection ───────────────────────────────────────── */}
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={1}>
           <h2 className="dx-section-title">The Discriminant Connection</h2>
           <p className="dx-section-intro">
             The number of intersections is determined entirely by the discriminant D = B² − 4AC of the combined quadratic — the same rule you already know.
@@ -290,7 +249,7 @@ export default function QuadraticLinearSystems() {
         </RevealSection>
 
         {/* ── How it shows up on the SAT ───────────────────────────────────── */}
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={2}>
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT tests two patterns for quadratic-linear systems: using D to count solutions, and using D = 0 to find a missing constant.

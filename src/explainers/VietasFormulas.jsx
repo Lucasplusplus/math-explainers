@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { ease, duration } from "../motion.js";
+import { ease, duration, nav } from "../motion.js";
 import { AnimatedNumber } from "../AnimatedNumber.jsx";
 import { RevealSection } from "../RevealSection.jsx";
 
@@ -24,6 +24,7 @@ const sx = (x) => ((x + XR) / (2 * XR)) * W;
 const sy = (y) => ((YR - y) / (2 * YR)) * H;
 
 export default function VietasFormulas() {
+  const slug = useLocation().pathname.split("/").pop();
   const [a, setA] = useState(1);
   const [b, setB] = useState(-8);
   const [c, setC] = useState(7);
@@ -86,52 +87,6 @@ export default function VietasFormulas() {
 
   return (
     <div className="dx-page">
-      <style>{`
-        .dx-page { background: var(--bg); min-height: 100vh; padding: 32px 20px; }
-        .dx { font-family: var(--font); color: var(--ink); max-width: 920px; margin: 0 auto; }
-        .dx-back { font-size: 12px; color: var(--mist); text-decoration: none; }
-        .dx-back:hover { color: var(--ink); }
-        .dx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 18px; }
-        @media (max-width: 720px) { .dx-grid { grid-template-columns: 1fr; gap: 28px; } }
-        .dx-domain { font-size: 11px; letter-spacing: 1.5px; color: var(--faint); font-weight: 400; margin: 0 0 6px; text-transform: uppercase; }
-        .dx-kicker { font-size: 12px; letter-spacing: 3px; color: var(--mist); font-weight: 700; margin: 0 0 10px; text-transform: uppercase; }
-        .dx-title { font-size: 44px; line-height: 1.05; margin: 0 0 12px; font-weight: 700; }
-        .dx-dek { font-size: 16px; color: var(--mist); margin: 0 0 28px; line-height: 1.45; }
-        .dx-label { font-size: 11px; letter-spacing: 2.5px; color: var(--faint); font-weight: 700; margin: 22px 0 8px; text-transform: uppercase; }
-        .dx-eq { font-size: 24px; font-variant-numeric: tabular-nums; }
-        .dx-formula { font-size: 36px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin: 6px 0; font-variant-numeric: tabular-nums; }
-        .dx-formula-value { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin: 8px 0 0; font-variant-numeric: tabular-nums; }
-        .dx-frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.15; }
-        .dx-frac-num { padding: 0 6px 3px; }
-        .dx-frac-den { padding: 3px 6px 0; border-top: 2px solid currentColor; }
-        .dx-pill { display: inline-block; padding: 9px 18px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-top: 6px; background: var(--ink); color: var(--bg); }
-        .dx-panel { background: var(--panel); border: 1.5px solid var(--line); border-radius: 4px; padding: 18px; }
-        .dx-slider { width: 100%; accent-color: var(--accent); height: 22px; }
-        .dx-srow { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
-        .dx-svar { font-size: 18px; width: 18px; font-style: italic; }
-        .dx-sval { font-variant-numeric: tabular-nums; width: 34px; text-align: right; font-size: 15px; font-weight: 700; }
-        .dx-note { font-size: 12px; color: var(--faint); margin: 10px 0 0; }
-
-        .dx-section { margin-top: 56px; padding-top: 32px; border-top: 1.5px solid var(--line); }
-        .dx-section-title { font-size: 26px; font-weight: 700; margin: 0 0 10px; }
-        .dx-section-intro { font-size: 15px; color: var(--mist); margin: 0 0 28px; line-height: 1.5; max-width: 680px; }
-        .dx-disguises { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
-        @media (max-width: 880px) { .dx-disguises { grid-template-columns: 1fr; } }
-        .dx-disguise { border-left: 3px solid var(--ink); padding: 2px 0 2px 16px; }
-        .dx-disguise-name { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mist); margin: 0 0 10px; }
-        .dx-disguise-q { font-size: 15px; font-style: italic; margin: 0 0 10px; line-height: 1.4; }
-        .dx-disguise-tell { font-size: 13.5px; color: var(--ink); margin: 0 0 10px; line-height: 1.45; }
-        .dx-disguise-tell b { font-weight: 700; }
-        .dx-disguise-map { font-size: 13.5px; font-variant-numeric: tabular-nums; color: var(--faint); font-weight: 700; margin: 0; }
-        .dx-example-problem { font-size: 16px; margin: 0 0 14px; line-height: 1.4; }
-        .dx-example-line { font-size: 17px; font-variant-numeric: tabular-nums; margin: 6px 0; font-weight: 700; }
-        .dx-example-link { font-size: 14px; color: var(--mist); margin: 16px 0 0; font-style: italic; line-height: 1.45; }
-
-        .dx-video-wrap { aspect-ratio: 2160 / 1322; background: var(--panel); border: 1.5px solid var(--line); border-radius: 4px; overflow: hidden; margin-top: 28px; max-width: 680px; transition: border-color 0.2s ease; }
-        .dx-video-wrap:hover { border-color: var(--mist); }
-        .dx-video-frame { width: 100%; height: 100%; display: block; border: 0; background: var(--ink); object-fit: contain; }
-        @media (prefers-reduced-motion: reduce) { .dx-video-wrap { transition: none; } }
-      `}</style>
 
       <div className="dx">
         <Link className="dx-back" to="/advanced-math">
@@ -142,7 +97,13 @@ export default function VietasFormulas() {
           {/* LEFT — the concept */}
           <div>
             <p className="dx-kicker"> Advanced Math · Quadratics </p>
-            <h1 className="dx-title"> Vieta's Formulas </h1>
+            <motion.h1
+              className="dx-title"
+              layoutId={`concept-title-${slug}`}
+              transition={{ layout: { duration: nav.layoutDur, ease: nav.easeOut } }}
+            >
+              Vieta's Formulas
+            </motion.h1>
             <p className="dx-dek">These 2 rules may come in handy when testing</p>
 
             <p className="dx-label">Practice</p>
@@ -279,7 +240,7 @@ export default function VietasFormulas() {
           </div>
         </div>
 
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={0}>
           <h2 className="dx-section-title">The Full Explanation</h2>
           <p className="dx-section-intro">You can skip this; this section just proves why it works. Keep in mind, I only explain why it works for quadratics in this video. The entire concept and its formula has much more but this is what shows up on the SAT. </p>
 
@@ -299,7 +260,7 @@ export default function VietasFormulas() {
           </div>
         </RevealSection>
 
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={1}>
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT never says "Vieta's." It asks about the sum or product of the

@@ -49,18 +49,18 @@ export default function Home() {
   return (
     <div className="home-page">
       <style>{`
-        .home-page { background: #0a0a0a; }
+        .home-page { background: #090909; }
         .hero {
           position: relative;
           min-height: 100vh;
           overflow: hidden;
-          color: #f2f2f2;
+          color: #f2f2f0;
           font-family: var(--font);
         }
         .hero-canvas, .hero-fallback {
           position: absolute;
           inset: 0;
-          background: #0a0a0a;
+          background: #090909;
         }
         .hero-canvas canvas { display: block; }
         .hero-grain {
@@ -68,7 +68,7 @@ export default function Home() {
           inset: 0;
           background-image: var(--grain-url);
           background-size: 90px 90px;
-          opacity: 0.05;
+          opacity: 0.04;
           mix-blend-mode: overlay;
           pointer-events: none;
         }
@@ -76,10 +76,10 @@ export default function Home() {
           animation: grain-shift 0.6s steps(4) infinite;
         }
         @keyframes grain-shift {
-          0% { background-position: 0 0; }
-          25% { background-position: 17px 5px; }
-          50% { background-position: 3px 21px; }
-          75% { background-position: -13px 8px; }
+          0%   { background-position: 0 0; }
+          25%  { background-position: 17px 5px; }
+          50%  { background-position: 3px 21px; }
+          75%  { background-position: -13px 8px; }
           100% { background-position: 0 0; }
         }
         .hero-scanline {
@@ -88,10 +88,10 @@ export default function Home() {
           pointer-events: none;
           background: repeating-linear-gradient(
             to bottom,
-            rgba(255, 255, 255, 0.025) 0,
-            rgba(255, 255, 255, 0.025) 1px,
+            rgba(255,255,255,0.018) 0,
+            rgba(255,255,255,0.018) 1px,
             transparent 1px,
-            transparent var(--space-4)
+            transparent 5px
           );
         }
         .hero-content {
@@ -102,65 +102,76 @@ export default function Home() {
           align-items: flex-start;
           justify-content: flex-end;
           min-height: 100vh;
-          padding: var(--space-9) var(--space-8);
-          gap: var(--space-6);
+          padding: 56px 48px;
+          gap: 0;
           pointer-events: none;
         }
         .hero-title {
-          margin: 0;
-          font-weight: 700;
-          line-height: 1.02;
-          font-size: var(--text-5);
-          letter-spacing: -0.01em;
+          margin: 0 0 14px;
+          font-weight: 800;
+          line-height: 1.0;
+          font-size: clamp(48px, 8vw, 88px);
+          letter-spacing: -0.04em;
+          color: #f2f2f0;
         }
         .hero-tagline {
-          margin: 0;
-          max-width: 34ch;
-          font-size: var(--text-2);
-          color: #b9b9b9;
-          line-height: 1.4;
+          margin: 0 0 28px;
+          max-width: 36ch;
+          font-size: 17px;
+          font-weight: 400;
+          color: #a0a09c;
+          line-height: 1.55;
         }
         .hero-cta {
           pointer-events: auto;
-          display: inline-block;
-          margin-top: var(--space-5);
-          padding: var(--space-5) var(--space-7);
-          font-size: var(--text-1);
-          color: #f2f2f2;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 10px 18px;
+          font-size: 13px;
+          font-weight: 500;
+          font-family: var(--font);
+          letter-spacing: 0.02em;
+          color: #f2f2f0;
           text-decoration: none;
-          border: 1px solid rgba(255, 255, 255, 0.35);
-          border-radius: var(--space-2);
-          transition: border-color 0.2s ease, background-color 0.2s ease;
+          border: 1px solid rgba(255,255,255,0.22);
+          border-radius: 5px;
+          transition: border-color 0.15s, background-color 0.15s;
         }
         .hero-cta:hover {
-          border-color: rgba(255, 255, 255, 0.8);
-          background: rgba(255, 255, 255, 0.06);
+          border-color: rgba(255,255,255,0.55);
+          background: rgba(255,255,255,0.06);
         }
         .sound-toggle {
           position: absolute;
           z-index: 2;
-          right: var(--space-8);
-          bottom: var(--space-8);
+          right: 40px;
+          bottom: 40px;
           pointer-events: auto;
           background: transparent;
-          color: #b9b9b9;
-          border: 1px solid rgba(255, 255, 255, 0.25);
-          border-radius: var(--space-2);
-          padding: var(--space-4) var(--space-6);
+          color: #888885;
+          border: 1px solid rgba(255,255,255,0.18);
+          border-radius: 5px;
+          padding: 7px 14px;
           font-family: var(--font);
-          font-size: var(--text-1);
+          font-size: 12px;
+          font-weight: 500;
           cursor: pointer;
-          transition: border-color 0.2s ease, color 0.2s ease;
+          letter-spacing: 0.02em;
+          transition: border-color 0.15s, color 0.15s;
         }
         .sound-toggle:hover {
-          border-color: rgba(255, 255, 255, 0.6);
-          color: #f2f2f2;
+          border-color: rgba(255,255,255,0.45);
+          color: #f2f2f0;
         }
         @media (max-width: 760px) {
-          .hero-content { padding: var(--space-7) var(--space-6); }
-          .hero-title { font-size: var(--text-4); }
-          .hero-tagline { font-size: var(--text-1); }
-          .sound-toggle { right: var(--space-6); bottom: var(--space-6); }
+          .hero-content { padding: 40px 28px; }
+          .hero-title { font-size: clamp(40px, 10vw, 64px); }
+          .hero-tagline { font-size: 15px; }
+          .sound-toggle { right: 24px; bottom: 24px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-cta, .sound-toggle { transition: none; }
         }
       `}</style>
 

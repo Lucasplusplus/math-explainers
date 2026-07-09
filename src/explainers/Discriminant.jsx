@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { ease, duration } from "../motion.js";
+import { ease, duration, nav } from "../motion.js";
 import { AnimatedNumber } from "../AnimatedNumber.jsx";
 import { RevealSection } from "../RevealSection.jsx";
 
@@ -25,6 +25,7 @@ const sx = (x) => ((x + XR) / (2 * XR)) * W;
 const sy = (y) => ((YR - y) / (2 * YR)) * H;
 
 export default function Discriminant() {
+  const slug = useLocation().pathname.split("/").pop();
   const [a, setA] = useState(1);
   const [b, setB] = useState(-8);
   const [c, setC] = useState(7);
@@ -127,47 +128,6 @@ export default function Discriminant() {
 
   return (
     <div className="dx-page">
-      <style>{`
-        .dx-page { background: var(--bg); min-height: 100vh; padding: 32px 20px; }
-        .dx { font-family: var(--font); color: var(--ink); max-width: 920px; margin: 0 auto; }
-        .dx-back { font-size: 12px; color: var(--mist); text-decoration: none; }
-        .dx-back:hover { color: var(--ink); }
-        .dx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 18px; }
-        @media (max-width: 720px) { .dx-grid { grid-template-columns: 1fr; gap: 28px; } }
-        .dx-domain { font-size: 11px; letter-spacing: 1.5px; color: var(--faint); font-weight: 400; margin: 0 0 6px; text-transform: uppercase; }
-        .dx-kicker { font-size: 12px; letter-spacing: 3px; color: var(--mist); font-weight: 700; margin: 0 0 10px; text-transform: uppercase; }
-        .dx-title { font-size: 44px; line-height: 1.05; margin: 0 0 12px; font-weight: 700; }
-        .dx-dek { font-size: 16px; color: var(--mist); margin: 0 0 28px; line-height: 1.45; }
-        .dx-label { font-size: 11px; letter-spacing: 2.5px; color: var(--faint); font-weight: 700; margin: 22px 0 8px; text-transform: uppercase; }
-        .dx-eq { font-size: 24px; font-variant-numeric: tabular-nums; }
-        .dx-disc { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
-        .dx-pill { display: inline-block; padding: 9px 18px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-top: 6px; background: var(--ink); color: var(--bg); }
-        .dx-rule { font-size: 36px; font-weight: 700; margin: 6px 0; line-height: 1.15; font-variant-numeric: tabular-nums; color: var(--faint); }
-        .dx-rule.is-active { color: var(--ink); }
-        .dx-panel { background: var(--panel); border: 1.5px solid var(--line); border-radius: 4px; padding: 18px; }
-        .dx-slider { width: 100%; accent-color: var(--accent); height: 22px; }
-        .dx-srow { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
-        .dx-svar { font-size: 18px; width: 18px; font-style: italic; }
-        .dx-sval { font-variant-numeric: tabular-nums; width: 34px; text-align: right; font-size: 15px; font-weight: 700; }
-        .dx-btn { background: var(--btn-bg); color: var(--btn-fg); border: none; border-radius: var(--btn-radius); padding: var(--btn-pd-y) var(--btn-pd-x); font-size: var(--btn-font-size); font-weight: 700; cursor: pointer; font-family: inherit; margin-top: var(--space-7); }
-        .dx-btn:hover { background: var(--btn-bg-hover); }
-        .dx-note { font-size: 12px; color: var(--faint); margin: 10px 0 0; }
-
-        .dx-section { margin-top: 56px; padding-top: 32px; border-top: 1.5px solid var(--line); }
-        .dx-section-title { font-size: 26px; font-weight: 700; margin: 0 0 10px; }
-        .dx-section-intro { font-size: 15px; color: var(--mist); margin: 0 0 28px; line-height: 1.5; max-width: 680px; }
-        .dx-disguises { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
-        @media (max-width: 880px) { .dx-disguises { grid-template-columns: 1fr; } }
-        .dx-disguise { border-left: 3px solid var(--ink); padding: 2px 0 2px 16px; }
-        .dx-disguise-name { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mist); margin: 0 0 10px; }
-        .dx-disguise-q { font-size: 15px; font-style: italic; margin: 0 0 10px; line-height: 1.4; }
-        .dx-disguise-tell { font-size: 13.5px; color: var(--ink); margin: 0 0 10px; line-height: 1.45; }
-        .dx-disguise-tell b { font-weight: 700; }
-        .dx-disguise-map { font-size: 13.5px; font-variant-numeric: tabular-nums; color: var(--faint); font-weight: 700; margin: 0; }
-        .dx-example-problem { font-size: 16px; margin: 0 0 14px; line-height: 1.4; }
-        .dx-example-line { font-size: 17px; font-variant-numeric: tabular-nums; margin: 6px 0; font-weight: 700; }
-        .dx-example-link { font-size: 14px; color: var(--mist); margin: 16px 0 0; font-style: italic; line-height: 1.45; }
-      `}</style>
 
       <div className="dx">
         <Link className="dx-back" to="/advanced-math">
@@ -178,7 +138,13 @@ export default function Discriminant() {
           {/* LEFT — the concept */}
           <div>
             <p className="dx-kicker"> Advanced Math · Quadratics </p>
-            <h1 className="dx-title"> The Discriminant </h1>
+            <motion.h1
+              className="dx-title"
+              layoutId={`concept-title-${slug}`}
+              transition={{ layout: { duration: nav.layoutDur, ease: nav.easeOut } }}
+            >
+              The Discriminant
+            </motion.h1>
             <p className="dx-dek"> Ignore all the bs. Discriminant just means whatever is under the square root. In the Quadratic Formula, it's the b² - 4ac and depending on its value, that will determine how many roots a quadratic has. </p>
 
             <p className="dx-label">Practice (move the sliders to see when solutions do/don't occur)</p>
@@ -287,7 +253,7 @@ export default function Discriminant() {
           </div>
         </div>
 
-        <RevealSection className="dx-section">
+        <RevealSection className="dx-section" index={0}>
           <h2 className="dx-section-title">How it shows up on the SAT</h2>
           <p className="dx-section-intro">
             The SAT never says "discriminant" — it usually refers to it as roots, solutions, or x-intercepts. Just know that they all mean the same thing here.
