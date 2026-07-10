@@ -40,7 +40,7 @@ export default function DomainIndex({ domainSlug }) {
               </li>
             ))
           ) : (
-            <li className="dm-empty">[concepts coming soon]</li>
+            <li className="dm-empty">Concepts for this topic are coming soon.</li>
           )}
         </ul>
       </div>

@@ -44,7 +44,8 @@
   --font:      "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
 
-  /* Type roles (exact) */
+  /* Type roles (exact) — one scale; homepage anchors it at --fs-display */
+  --fs-display: clamp(38px, 6vw, 52px);  /* homepage hero — top of the scale */
   --fs-title:   32px;    /* page title    1.15 / 650 / -0.02em */
   --fs-section: 20px;    /* section head  1.3  / 600 / -0.01em */
   --fs-body:    15px;    /* body          1.6  / 400 */

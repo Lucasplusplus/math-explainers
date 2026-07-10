@@ -95,7 +95,7 @@ export default function FunctionTransformations() {
             >
               Function Transformations
             </motion.h1>
-            <p className="dx-dek">[dek placeholder]</p>
+            <p className="dx-dek">How shifts, stretches, and reflections change inside vs. outside f(x) — and why the directions differ.</p>
 
             <p className="dx-label">BASE FUNCTION (fixed)</p>
             <div className="dx-formula">f(x) = x²</div>

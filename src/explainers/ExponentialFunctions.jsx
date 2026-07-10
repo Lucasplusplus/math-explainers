@@ -84,7 +84,7 @@ export default function ExponentialFunctions() {
             >
               Exponential Functions
             </motion.h1>
-            <p className="dx-dek">[dek placeholder]</p>
+            <p className="dx-dek">How y = a·bˣ models percent change, and how to build b from a rate.</p>
 
             <p className="dx-label">THE FORMULA</p>
             <div className="dx-formula">

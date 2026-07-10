@@ -89,7 +89,7 @@ export default function QuadraticLinearSystems() {
             >
               Quadratic-Linear Systems
             </motion.h1>
-            <p className="dx-dek">[dek placeholder]</p>
+            <p className="dx-dek">Finding where a line meets a parabola by combining them into one quadratic and reading the discriminant.</p>
 
             <p className="dx-label">THE SYSTEM (move the sliders)</p>
             <div className="dx-eq">

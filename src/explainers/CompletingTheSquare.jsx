@@ -106,7 +106,7 @@ export default function CompletingTheSquare() {
             >
               Completing the Square
             </motion.h1>
-            <p className="dx-dek">[dek placeholder]</p>
+            <p className="dx-dek">Rewriting ax² + bx + c into vertex form a(x − h)² + k to expose the vertex directly.</p>
 
             <p className="dx-label">STANDARD FORM (move the sliders)</p>
             <div className="dx-eq">

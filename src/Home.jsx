@@ -1,5 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { nav, stagger } from "./motion.js";
 import useFieldSound from "./hero/useFieldSound.js";
 
 const FunctionField = lazy(() => import("./hero/FunctionField.jsx"));
@@ -39,6 +41,16 @@ function useGrainDataUrl() {
   }, []);
 }
 
+// Entrance stagger — same tokens as the rest of the site (nav.rise / nav.ease).
+const pageStagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: stagger.childDelay } },
+};
+const item = {
+  hidden: { opacity: 0, y: nav.rise },
+  show: { opacity: 1, y: 0, transition: { duration: nav.enterDur, ease: nav.ease } },
+};
+
 export default function Home() {
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const isMobile = useMediaQuery("(max-width: 760px)");
@@ -49,32 +61,69 @@ export default function Home() {
   return (
     <div className="home-page">
       <style>{`
-        .home-page { background: #090909; }
-        .hero {
-          position: relative;
-          min-height: 100vh;
-          overflow: hidden;
-          color: #f2f2f0;
+        .home-page { background: var(--bg); min-height: 100vh; }
+        .home {
+          max-width: 960px;
+          margin: 0 auto;
+          padding: var(--space-11) var(--space-5) var(--space-10);
           font-family: var(--font);
         }
-        .hero-canvas, .hero-fallback {
-          position: absolute;
-          inset: 0;
-          background: #090909;
+        .home-hero { max-width: 640px; }
+        .home-kicker {
+          font-size: var(--fs-label);
+          font-weight: 500;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin: 0 0 var(--space-3);
         }
-        .hero-canvas canvas { display: block; }
-        .hero-grain {
+        .home-title {
+          font-size: var(--fs-display);
+          font-weight: 650;
+          line-height: 1.08;
+          letter-spacing: -0.03em;
+          color: var(--ink);
+          margin: 0 0 var(--space-4);
+        }
+        .home-lede {
+          font-size: var(--fs-passage);
+          line-height: 1.7;
+          color: var(--muted);
+          max-width: 54ch;
+          margin: 0 0 var(--space-7);
+        }
+        .home-actions {
+          display: flex;
+          align-items: center;
+          gap: var(--space-3);
+          flex-wrap: wrap;
+        }
+
+        /* Signature 3D field — a raised figure, same plane logic as concept
+           panels: hairline border, 8px radius, dark interior (like video frames). */
+        .home-figure {
+          position: relative;
+          margin: var(--space-9) 0 0;
+          border: 1px solid var(--line);
+          border-radius: var(--r-card);
+          overflow: hidden;
+          background: var(--ink);
+          aspect-ratio: 16 / 10;
+        }
+        .home-canvas, .home-fallback { position: absolute; inset: 0; }
+        .home-fallback { background: var(--ink); }
+        .home-canvas canvas { display: block; }
+
+        .home-grain {
           position: absolute;
           inset: 0;
           background-image: var(--grain-url);
           background-size: 90px 90px;
-          opacity: 0.04;
+          opacity: 0.05;
           mix-blend-mode: overlay;
           pointer-events: none;
         }
-        .hero-grain.is-animated {
-          animation: grain-shift 0.6s steps(4) infinite;
-        }
+        .home-grain.is-animated { animation: grain-shift 0.6s steps(4) infinite; }
         @keyframes grain-shift {
           0%   { background-position: 0 0; }
           25%  { background-position: 17px 5px; }
@@ -82,137 +131,89 @@ export default function Home() {
           75%  { background-position: -13px 8px; }
           100% { background-position: 0 0; }
         }
-        .hero-scanline {
+
+        /* Ghost control on the dark figure. */
+        .home-sound {
           position: absolute;
-          inset: 0;
-          pointer-events: none;
-          background: repeating-linear-gradient(
-            to bottom,
-            rgba(255,255,255,0.018) 0,
-            rgba(255,255,255,0.018) 1px,
-            transparent 1px,
-            transparent 5px
-          );
-        }
-        .hero-content {
-          position: relative;
           z-index: 2;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          justify-content: flex-end;
-          min-height: 100vh;
-          padding: 56px 48px;
-          gap: 0;
-          pointer-events: none;
-        }
-        .hero-title {
-          margin: 0 0 14px;
-          font-weight: 800;
-          line-height: 1.0;
-          font-size: clamp(48px, 8vw, 88px);
-          letter-spacing: -0.04em;
-          color: #f2f2f0;
-        }
-        .hero-tagline {
-          margin: 0 0 28px;
-          max-width: 36ch;
-          font-size: 17px;
-          font-weight: 400;
-          color: #a0a09c;
-          line-height: 1.55;
-        }
-        .hero-cta {
-          pointer-events: auto;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          padding: 10px 18px;
-          font-size: 13px;
-          font-weight: 500;
+          right: var(--space-4);
+          bottom: var(--space-4);
+          background: rgba(0, 0, 0, 0.32);
+          color: rgba(255, 255, 255, 0.72);
+          border: 1px solid rgba(255, 255, 255, 0.20);
+          border-radius: var(--r-btn);
+          padding: 6px 12px;
           font-family: var(--font);
+          font-size: var(--fs-label);
+          font-weight: 500;
           letter-spacing: 0.02em;
-          color: #f2f2f0;
-          text-decoration: none;
-          border: 1px solid rgba(255,255,255,0.22);
-          border-radius: 6px;
-          transition: border-color var(--dur-hover) var(--ease),
-                      background-color var(--dur-hover) var(--ease);
-        }
-        .hero-cta:hover {
-          border-color: rgba(255,255,255,0.55);
-          background: rgba(255,255,255,0.06);
-        }
-        .sound-toggle {
-          position: absolute;
-          z-index: 2;
-          right: 40px;
-          bottom: 40px;
-          pointer-events: auto;
-          background: transparent;
-          color: #888885;
-          border: 1px solid rgba(255,255,255,0.18);
-          border-radius: 6px;
-          padding: 7px 14px;
-          font-family: var(--font);
-          font-size: 12px;
-          font-weight: 500;
           cursor: pointer;
-          letter-spacing: 0.02em;
+          backdrop-filter: blur(4px);
           transition: border-color var(--dur-hover) var(--ease),
                       color var(--dur-hover) var(--ease);
         }
-        .sound-toggle:hover {
-          border-color: rgba(255,255,255,0.45);
-          color: #f2f2f0;
-        }
-        @media (max-width: 760px) {
-          .hero-content { padding: 40px 28px; }
-          .hero-title { font-size: clamp(40px, 10vw, 64px); }
-          .hero-tagline { font-size: 15px; }
-          .sound-toggle { right: 24px; bottom: 24px; }
+        .home-sound:hover { border-color: rgba(255, 255, 255, 0.45); color: #fff; }
+
+        @media (max-width: 640px) {
+          .home { padding: var(--space-9) var(--space-5) var(--space-8); }
+          .home-figure { aspect-ratio: 4 / 3; margin-top: var(--space-7); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .hero-cta, .sound-toggle { transition: none; }
+          .home-sound { transition: none; }
         }
       `}</style>
 
-      <section
-        className="hero"
-        style={{ "--grain-url": `url(${grainUrl})` }}
+      <motion.div
+        className="home"
+        variants={pageStagger}
+        initial={reducedMotion ? false : "hidden"}
+        animate={reducedMotion ? false : "show"}
       >
-        <div className="hero-canvas">
-          <Suspense fallback={<div className="hero-fallback" />}>
-            <FunctionField
-              light={isMobile}
-              still={reducedMotion}
-              sampleRef={heightRef}
-            />
-          </Suspense>
+        <div className="home-hero">
+          <motion.p className="home-kicker" variants={item}>SAT Math</motion.p>
+          <motion.h1 className="home-title" variants={item}>
+            Math Explainers
+          </motion.h1>
+          <motion.p className="home-lede" variants={item}>
+            The trickiest SAT math concepts — each on a single interactive screen.
+            Drag the inputs and watch the rule become obvious.
+          </motion.p>
+          <motion.div className="home-actions" variants={item}>
+            <Link className="site-btn" to="/explainers">
+              Explore the concepts →
+            </Link>
+          </motion.div>
         </div>
 
-        <div className={`hero-grain${reducedMotion ? "" : " is-animated"}`} aria-hidden="true" />
-        <div className="hero-scanline" aria-hidden="true" />
+        <motion.figure className="home-figure" variants={item}>
+          <div className="home-canvas">
+            <Suspense fallback={<div className="home-fallback" />}>
+              <FunctionField
+                light={isMobile}
+                still={reducedMotion}
+                sampleRef={heightRef}
+              />
+            </Suspense>
+          </div>
 
-        <div className="hero-content">
-          <h1 className="hero-title">Math Explainers</h1>
-          <p className="hero-tagline">[what this site does, one line]</p>
-          <Link className="hero-cta" to="/explainers">
-            Explore the concepts →
-          </Link>
-        </div>
+          <div
+            className={`home-grain${reducedMotion ? "" : " is-animated"}`}
+            style={{ "--grain-url": `url(${grainUrl})` }}
+            aria-hidden="true"
+          />
 
-        {!reducedMotion && (
-          <button
-            type="button"
-            className="sound-toggle"
-            onClick={toggleSound}
-            aria-pressed={soundOn}
-          >
-            {soundOn ? "Sound: on" : "Sound: off"}
-          </button>
-        )}
-      </section>
+          {!reducedMotion && (
+            <button
+              type="button"
+              className="home-sound"
+              onClick={toggleSound}
+              aria-pressed={soundOn}
+            >
+              {soundOn ? "Sound: on" : "Sound: off"}
+            </button>
+          )}
+        </motion.figure>
+      </motion.div>
     </div>
   );
 }

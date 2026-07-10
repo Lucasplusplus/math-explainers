@@ -95,7 +95,7 @@ export default function Polynomials() {
             >
               Polynomials
             </motion.h1>
-            <p className="dx-dek">[dek placeholder]</p>
+            <p className="dx-dek">Reading roots, multiplicity (cross vs. bounce), and end behavior from a polynomial's factored form.</p>
 
             <p className="dx-label">FACTORED FORM (toggle factors)</p>
             <div className="dx-formula">f(x) = {factoredStr}</div>
