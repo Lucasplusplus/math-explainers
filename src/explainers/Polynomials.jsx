@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, useInView, useReducedMotion } from "framer-motion";
-import { ease, duration, nav } from "../motion.js";
+import { motion } from "framer-motion";
+import { nav } from "../motion.js";
 import { RevealSection } from "../RevealSection.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -30,9 +30,6 @@ export default function Polynomials() {
   const sign = posSign ? 1 : -1;
   const degree = (f1 ? 1 : 0) + (f2 ? 2 : 0) + (f3 ? 1 : 0);
 
-  const panelRef = useRef(null);
-  const isInView = useInView(panelRef, { once: true, margin: "-80px 0px" });
-  const shouldReduce = useReducedMotion();
 
   function evalPoly(x) {
     let y = sign;
@@ -141,18 +138,13 @@ export default function Polynomials() {
           </div>
 
           {/* RIGHT — the live picture */}
-          <div className="dx-panel" ref={panelRef}>
+          <div className="dx-panel">
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
               <clipPath id="poly-box">
                 <rect x="0" y="0" width={W} height={H} />
               </clipPath>
               <clipPath id="poly-draw">
-                <motion.rect
-                  x={0} y={0} height={H}
-                  initial={{ width: 0 }}
-                  animate={{ width: isInView || shouldReduce ? W : 0 }}
-                  transition={shouldReduce ? { duration: 0 } : { duration: duration.slow, ease }}
-                />
+                <rect x={0} y={0} width={W} height={H} />
               </clipPath>
               <g clipPath="url(#poly-box)">
                 {/* grid */}

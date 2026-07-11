@@ -1,7 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { nav, stagger } from "./motion.js";
 import useFieldSound from "./hero/useFieldSound.js";
 
 const FunctionField = lazy(() => import("./hero/FunctionField.jsx"));
@@ -40,16 +38,6 @@ function useGrainDataUrl() {
     return canvas.toDataURL();
   }, []);
 }
-
-// Entrance stagger — same tokens as the rest of the site (nav.rise / nav.ease).
-const pageStagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: stagger.childDelay } },
-};
-const item = {
-  hidden: { opacity: 0, y: nav.rise },
-  show: { opacity: 1, y: 0, transition: { duration: nav.enterDur, ease: nav.ease } },
-};
 
 export default function Home() {
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
@@ -100,7 +88,8 @@ export default function Home() {
         }
 
         /* Signature 3D field — a raised figure, same plane logic as concept
-           panels: hairline border, 8px radius, dark interior (like video frames). */
+           panels: hairline border, 8px radius, dark interior (like video frames).
+           The field and its grain are deliberate ambient hero artwork. */
         .home-figure {
           position: relative;
           margin: var(--space-9) 0 0;
@@ -163,29 +152,22 @@ export default function Home() {
         }
       `}</style>
 
-      <motion.div
-        className="home"
-        variants={pageStagger}
-        initial={reducedMotion ? false : "hidden"}
-        animate={reducedMotion ? false : "show"}
-      >
+      <div className="home">
         <div className="home-hero">
-          <motion.p className="home-kicker" variants={item}>SAT Math</motion.p>
-          <motion.h1 className="home-title" variants={item}>
-            Math Explainers
-          </motion.h1>
-          <motion.p className="home-lede" variants={item}>
+          <p className="home-kicker">SAT Math</p>
+          <h1 className="home-title">Math Explainers</h1>
+          <p className="home-lede">
             The trickiest SAT math concepts — each on a single interactive screen.
             Drag the inputs and watch the rule become obvious.
-          </motion.p>
-          <motion.div className="home-actions" variants={item}>
+          </p>
+          <div className="home-actions">
             <Link className="site-btn" to="/explainers">
               Explore the concepts →
             </Link>
-          </motion.div>
+          </div>
         </div>
 
-        <motion.figure className="home-figure" variants={item}>
+        <figure className="home-figure">
           <div className="home-canvas">
             <Suspense fallback={<div className="home-fallback" />}>
               <FunctionField
@@ -212,8 +194,8 @@ export default function Home() {
               {soundOn ? "Sound: on" : "Sound: off"}
             </button>
           )}
-        </motion.figure>
-      </motion.div>
+        </figure>
+      </div>
     </div>
   );
 }
